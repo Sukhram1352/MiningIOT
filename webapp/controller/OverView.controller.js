@@ -1,8 +1,9 @@
 sap.ui.define([
 	"miningIOT/MiningIOT/controller/BaseController",
 	"sap/ui/model/Filter",
-	"sap/ui/model/FilterOperator"
-], function (BaseController, Filter, FilterOperator) {
+	"sap/ui/model/FilterOperator",
+	"sap/m/MessageBox"
+], function (BaseController, Filter, FilterOperator, MessageBox) {
 	"use strict";
 
 	return BaseController.extend("miningIOT.MiningIOT.controller.OverView", {
@@ -15,36 +16,16 @@ sap.ui.define([
 		onInit: function () {
 			var oVibrationSensorModel = new sap.ui.model.json.JSONModel();
 			
-			var aSensorId = [{
-				"SensorId": "QW-156-TRW-4569"
+			var aSensors = [{
+				"Sensor": "MySensor"
 			},{
-				"SensorId": "ZX-142-KUR-7449"
-			},{
-				"SensorId": "FG-672-QTR-7359"
-			},{
-				"SensorId": "GT-991-YAX-5251"
-			},{
-				"SensorId": "TY-312-FTR-9859"
-			},{
-				"SensorId": "YU-902-AER-7590"
-			},{
-				"SensorId": "GD-862-UIK-1698"
+				"Sensor": "MySensorMQ"
 			}];
 			
-			var aMachineId = [{
-				"MachineId": "112-TRE-45-OP"
+			var aMachines = [{
+				"Machine": "DeviceIOT"
 			},{
-				"MachineId": "672-GKE-91-KL"
-			},{
-				"MachineId": "890-MNQ-69-MQ"
-			},{
-				"MachineId": "672-UIP-93-YU"
-			},{
-				"MachineId": "756-LQR-90-KL"
-			},{
-				"MachineId": "567-TRE-45-OP"
-			},{
-				"MachineId": "924-HLD-38-NM"
+				"Machine": "DeviceIOTMQT"
 			}];
 			
 			var aStatus = [{
@@ -53,11 +34,12 @@ sap.ui.define([
 				"Status": "BreakDown"
 			}];
 			
-			var aSearchColumns = ["SensorId", "MachineId", "Location", "Status", "OrderId"];
+			var aSearchColumns = ["Sensor", "Machine", "Location", "Status", "OrderId"];
 			
 			var aUIFixedSensorData = [{
 				"SensorId": "7512a84c-8c46-4c8d-9ea7-5886b2e8cdf4",
 				"MachineId": "af6e1ca8-6b35-4398-8abb-fcf0b4e84613",
+				"EquipmentNumber": "",
 				"SensorName": "",
 				"MachineName": "",
 				"Location": "Beltana, Singleton, New South Wales, Australia",
@@ -72,31 +54,15 @@ sap.ui.define([
 				"Make": "HJR-493",
 				"Model": "2007",
 				"Data": []
-			// },{
-			// 	"SensorId": "7d23b5db-2cd0-4c1e-b6df-633fdc5bd420",
-			// 	"MachineId": "3dbdb0d8-3b8a-482b-b299-2f18347a8d5d",
-			// 	"SensorName": "",
-			// 	"MachineName": "",
-			// 	"Location": "Anglesea Mine, Victoria, Australia",
-			// 	"VibrationSpeed": "",
-			// 	"TimeStamp": "",
-			// 	"Threshold": 0.55,
-			// 	"MaxSpeed": 2,
-			// 	"Delta": 10,
-			// 	"Status": "Active",
-			// 	"OrderId": "",
-			// 	"InstallationTime": new Date(1533970000000),
-			// 	"Make": "TSR-123",
-			// 	"Model": "2005",
-			// 	"Data": []
-			}];
-			
-			var aSensorData = [{
-				"SensorId": "QW-156-TRW-4569",
-				"MachineId": "112-TRE-45-OP",
+			},{
+				"SensorId": "7d23b5db-2cd0-4c1e-b6df-633fdc5bd420",
+				"MachineId": "3dbdb0d8-3b8a-482b-b299-2f18347a8d5d",
+				"EquipmentNumber": "",
+				"SensorName": "",
+				"MachineName": "",
 				"Location": "Anglesea Mine, Victoria, Australia",
-				"VibrationSpeed": 0.50,
-				"TimeStamp": new Date(1563970000000),
+				"VibrationSpeed": "",
+				"TimeStamp": "",
 				"Threshold": 0.55,
 				"MaxSpeed": 2,
 				"Delta": 10,
@@ -105,635 +71,26 @@ sap.ui.define([
 				"InstallationTime": new Date(1533970000000),
 				"Make": "TSR-123",
 				"Model": "2005",
-				"Data": [{
-					"VibrartionSpeed": 0.55,
-					"TimeStamp": new Date(1562750000000),
-					"Status": "Active",
-					"OrderId": ""
-				},{
-					"VibrartionSpeed": 0.47,
-					"TimeStamp": new Date(1562850000000),
-					"Status": "Active",
-					"OrderId": ""
-				},{
-					"VibrartionSpeed": 0.56,
-					"TimeStamp": new Date(1562950000000),
-					"Status": "Active",
-					"OrderId": ""
-				},{
-					"VibrartionSpeed": 0.54,
-					"TimeStamp": new Date(1563000000000),
-					"Status": "Active",
-					"OrderId": ""
-				},{
-					"VibrartionSpeed": 0.57,
-					"TimeStamp": new Date(1563100000000),
-					"Status": "Active",
-					"OrderId": ""
-				},{
-					"VibrartionSpeed": 0.48,
-					"TimeStamp": new Date(1563200000000),
-					"Status": "Active",
-					"OrderId": ""
-				},{
-					"VibrartionSpeed": 0.54,
-					"TimeStamp": new Date(1563300000000),
-					"Status": "Active",
-					"OrderId": ""
-				},{
-					"VibrartionSpeed": 0.49,
-					"TimeStamp": new Date(1563350000000),
-					"Status": "Active",
-					"OrderId": ""
-				},{
-					"VibrartionSpeed": 0.53,
-					"TimeStamp": new Date(1563450000000),
-					"Status": "Active",
-					"OrderId": ""
-				},{
-					"VibrartionSpeed": 0.54,
-					"TimeStamp": new Date(1563550000000),
-					"Status": "Active",
-					"OrderId": ""
-				},{
-					"VibrartionSpeed": 0.63,
-					"TimeStamp": new Date(1563570000000),
-					"Status": "Active",
-					"OrderId": ""
-				},{
-					"VibrartionSpeed": 0.55,
-					"TimeStamp": new Date(1563670000000),
-					"Status": "Active",
-					"OrderId": ""
-				},{
-					"VibrartionSpeed": 0.57,
-					"TimeStamp": new Date(1563770000000),
-					"Status": "Active",
-					"OrderId": ""
-				},{
-					"VibrartionSpeed": 0.52,
-					"TimeStamp": new Date(1563870000000),
-					"Status": "Active",
-					"OrderId": ""
-				},{
-					"VibrartionSpeed": 0.50,
-					"TimeStamp": new Date(1563970000000),
-					"Status": "Active",
-					"OrderId": ""
-				}]
-			},{
-				"SensorId": "ZX-142-KUR-7449",
-				"MachineId": "672-GKE-91-KL",
-				"Location": "Beltana, Singleton, New South Wales, Australia",
-				"VibrationSpeed": 0.90,
-				"TimeStamp": new Date(1563970000000),
-				"Threshold": 1,
-				"MaxSpeed": 2,
-				"Delta": 10,
-				"Status": "Active",
-				"OrderId": "",
-				"InstallationTime": new Date(1523970000000),
-				"Make": "IDR-563",
-				"Model": "2007",
-				"Data": [{
-					"VibrartionSpeed": 0.98,
-					"TimeStamp": new Date(1562750000000),
-					"Status": "Active",
-					"OrderId": ""
-				},{
-					"VibrartionSpeed": 0.95,
-					"TimeStamp": new Date(1562850000000),
-					"Status": "Active",
-					"OrderId": ""
-				},{
-					"VibrartionSpeed": 0.99,
-					"TimeStamp": new Date(1562950000000),
-					"Status": "Active",
-					"OrderId": ""
-				},{
-					"VibrartionSpeed": 1.20,
-					"TimeStamp": new Date(1563000000000),
-					"Status": "Active",
-					"OrderId": ""
-				},{
-					"VibrartionSpeed": 1.18,
-					"TimeStamp": new Date(1563100000000),
-					"Status": "Active",
-					"OrderId": ""
-				},{
-					"VibrartionSpeed": 0.98,
-					"TimeStamp": new Date(1563200000000),
-					"Status": "Active",
-					"OrderId": ""
-				},{
-					"VibrartionSpeed": 0.70,
-					"TimeStamp": new Date(1563300000000),
-					"Status": "Active",
-					"OrderId": ""
-				},{
-					"VibrartionSpeed": 1.05,
-					"TimeStamp": new Date(1563350000000),
-					"Status": "Active",
-					"OrderId": ""
-				},{
-					"VibrartionSpeed": 0.98,
-					"TimeStamp": new Date(1563450000000),
-					"Status": "Active",
-					"OrderId": ""
-				},{
-					"VibrartionSpeed": 0.94,
-					"TimeStamp": new Date(1563550000000),
-					"Status": "Active",
-					"OrderId": ""
-				},{
-					"VibrartionSpeed": 1.13,
-					"TimeStamp": new Date(1563570000000),
-					"Status": "Active",
-					"OrderId": ""
-				},{
-					"VibrartionSpeed": 1.15,
-					"TimeStamp": new Date(1563670000000),
-					"Status": "Active",
-					"OrderId": ""
-				},{
-					"VibrartionSpeed": 0.97,
-					"TimeStamp": new Date(1563770000000),
-					"Status": "Active",
-					"OrderId": ""
-				},{
-					"VibrartionSpeed": 0.92,
-					"TimeStamp": new Date(1563870000000),
-					"Status": "Active",
-					"OrderId": ""
-				},{
-					"VibrartionSpeed": 0.90,
-					"TimeStamp": new Date(1563970000000),
-					"Status": "Active",
-					"OrderId": ""
-				}]
-			},{
-				"SensorId": "FG-672-QTR-7359",
-				"MachineId": "890-MNQ-69-MQ",
-				"Location": "Bengalla, Muswellbrook, New South Wales, Australia",
-				"VibrationSpeed": 0.67,
-				"TimeStamp": new Date(1563970000000),
-				"Threshold": 0.70,
-				"MaxSpeed": 1.5,
-				"Delta": 10,
-				"Status": "Active",
-				"OrderId": "",
-				"InstallationTime": new Date(1541970000000),
-				"Make": "UTY-964",
-				"Model": "2006",
-				"Data": [{
-					"VibrartionSpeed": 0.74,
-					"TimeStamp": new Date(1562750000000),
-					"Status": "Active",
-					"OrderId": ""
-				},{
-					"VibrartionSpeed": 0.78,
-					"TimeStamp": new Date(1562850000000),
-					"Status": "Active",
-					"OrderId": ""
-				},{
-					"VibrartionSpeed": 0.76,
-					"TimeStamp": new Date(1562950000000),
-					"Status": "Active",
-					"OrderId": ""
-				},{
-					"VibrartionSpeed": 0.72,
-					"TimeStamp": new Date(1563000000000),
-					"Status": "Active",
-					"OrderId": ""
-				},{
-					"VibrartionSpeed": 0.72,
-					"TimeStamp": new Date(1563100000000),
-					"Status": "Active",
-					"OrderId": ""
-				},{
-					"VibrartionSpeed": 0.70,
-					"TimeStamp": new Date(1563200000000),
-					"Status": "Active",
-					"OrderId": ""
-				},{
-					"VibrartionSpeed": 0.70,
-					"TimeStamp": new Date(1563300000000),
-					"Status": "Active",
-					"OrderId": ""
-				},{
-					"VibrartionSpeed": 0.65,
-					"TimeStamp": new Date(1563350000000),
-					"Status": "Active",
-					"OrderId": ""
-				},{
-					"VibrartionSpeed": 0.68,
-					"TimeStamp": new Date(1563450000000),
-					"Status": "Active",
-					"OrderId": ""
-				},{
-					"VibrartionSpeed": 0.64,
-					"TimeStamp": new Date(1563550000000),
-					"Status": "Active",
-					"OrderId": ""
-				},{
-					"VibrartionSpeed": 0.73,
-					"TimeStamp": new Date(1563570000000),
-					"Status": "Active",
-					"OrderId": ""
-				},{
-					"VibrartionSpeed": 0.72,
-					"TimeStamp": new Date(1563670000000),
-					"Status": "Active",
-					"OrderId": ""
-				},{
-					"VibrartionSpeed": 0.71,
-					"TimeStamp": new Date(1563770000000),
-					"Status": "Active",
-					"OrderId": ""
-				},{
-					"VibrartionSpeed": 0.69,
-					"TimeStamp": new Date(1563870000000),
-					"Status": "Active",
-					"OrderId": ""
-				},{
-					"VibrartionSpeed": 0.67,
-					"TimeStamp": new Date(1563970000000),
-					"Status": "Active",
-					"OrderId": ""
-				}]
-			},{
-				"SensorId": "GT-991-YAX-5251",
-				"MachineId": "672-UIP-93-YU",
-				"Location": "Callide, Banana, Quneesland, Australia",
-				"VibrationSpeed": 1.40,
-				"TimeStamp": new Date(1563970000000),
-				"Threshold": 1.05,
-				"MaxSpeed": 3,
-				"Delta": 10,
-				"Status": "BreakDown",
-				"OrderId": "1379356",
-				"InstallationTime": new Date(1513970000000),
-				"Make": "PDG-783",
-				"Model": "2004",
-				"Data": [{
-					"VibrartionSpeed": 1.13,
-					"TimeStamp": new Date(1562750000000),
-					"Status": "Active",
-					"OrderId": ""
-				},{
-					"VibrartionSpeed": 0.98,
-					"TimeStamp": new Date(1562850000000),
-					"Status": "Active",
-					"OrderId": ""
-				},{
-					"VibrartionSpeed": 0.99,
-					"TimeStamp": new Date(1562950000000),
-					"Status": "Active",
-					"OrderId": ""
-				},{
-					"VibrartionSpeed": 0.95,
-					"TimeStamp": new Date(1563000000000),
-					"Status": "Active",
-					"OrderId": ""
-				},{
-					"VibrartionSpeed": 0.99,
-					"TimeStamp": new Date(1563100000000),
-					"Status": "Active",
-					"OrderId": ""
-				},{
-					"VibrartionSpeed": 1.10,
-					"TimeStamp": new Date(1563200000000),
-					"Status": "Active",
-					"OrderId": ""
-				},{
-					"VibrartionSpeed": 1.15,
-					"TimeStamp": new Date(1563300000000),
-					"Status": "Active",
-					"OrderId": ""
-				},{
-					"VibrartionSpeed": 0.99,
-					"TimeStamp": new Date(1563350000000),
-					"Status": "Active",
-					"OrderId": ""
-				},{
-					"VibrartionSpeed": 1.18,
-					"TimeStamp": new Date(1563450000000),
-					"Status": "Active",
-					"OrderId": ""
-				},{
-					"VibrartionSpeed": 1.02,
-					"TimeStamp": new Date(1563550000000),
-					"Status": "Active",
-					"OrderId": ""
-				},{
-					"VibrartionSpeed": 1.01,
-					"TimeStamp": new Date(1563570000000),
-					"Status": "Active",
-					"OrderId": ""
-				},{
-					"VibrartionSpeed": 0.92,
-					"TimeStamp": new Date(1563670000000),
-					"Status": "Active",
-					"OrderId": ""
-				},{
-					"VibrartionSpeed": 0.91,
-					"TimeStamp": new Date(1563770000000),
-					"Status": "Active",
-					"OrderId": ""
-				},{
-					"VibrartionSpeed": 0.99,
-					"TimeStamp": new Date(1563870000000),
-					"Status": "Active",
-					"OrderId": ""
-				},{
-					"VibrartionSpeed": 1.40,
-					"TimeStamp": new Date(1563970000000),
-					"Status": "BreakDown",
-					"OrderId": "1379356"
-				}]
-			},{
-				"SensorId": "TY-312-FTR-9859",
-				"MachineId": "756-LQR-90-KL",
-				"Location": "Capcoal, Middlemount, Queensland, Australia",
-				"VibrationSpeed": 0.87,
-				"TimeStamp": new Date(1563970000000),
-				"Threshold": 0.85,
-				"MaxSpeed": 2,
-				"Delta": 10,
-				"Status": "Active",
-				"OrderId": "",
-				"InstallationTime": new Date(1523970000000),
-				"Make": "KGL-593",
-				"Model": "2008",
-				"Data": [{
-					"VibrartionSpeed": 0.80,
-					"TimeStamp": new Date(1562750000000),
-					"Status": "Active",
-					"OrderId": ""
-				},{
-					"VibrartionSpeed": 0.78,
-					"TimeStamp": new Date(1562850000000),
-					"Status": "Active",
-					"OrderId": ""
-				},{
-					"VibrartionSpeed": 0.73,
-					"TimeStamp": new Date(1562950000000),
-					"Status": "Active",
-					"OrderId": ""
-				},{
-					"VibrartionSpeed": 0.77,
-					"TimeStamp": new Date(1563000000000),
-					"Status": "Active",
-					"OrderId": ""
-				},{
-					"VibrartionSpeed": 0.79,
-					"TimeStamp": new Date(1563100000000),
-					"Status": "Active",
-					"OrderId": ""
-				},{
-					"VibrartionSpeed": 0.80,
-					"TimeStamp": new Date(1563200000000),
-					"Status": "Active",
-					"OrderId": ""
-				},{
-					"VibrartionSpeed": 0.87,
-					"TimeStamp": new Date(1563300000000),
-					"Status": "Active",
-					"OrderId": ""
-				},{
-					"VibrartionSpeed": 0.85,
-					"TimeStamp": new Date(1563350000000),
-					"Status": "Active",
-					"OrderId": ""
-				},{
-					"VibrartionSpeed": 0.88,
-					"TimeStamp": new Date(1563450000000),
-					"Status": "Active",
-					"OrderId": ""
-				},{
-					"VibrartionSpeed": 0.94,
-					"TimeStamp": new Date(1563550000000),
-					"Status": "Active",
-					"OrderId": ""
-				},{
-					"VibrartionSpeed": 0.83,
-					"TimeStamp": new Date(1563570000000),
-					"Status": "Active",
-					"OrderId": ""
-				},{
-					"VibrartionSpeed": 0.82,
-					"TimeStamp": new Date(1563670000000),
-					"Status": "Active",
-					"OrderId": ""
-				},{
-					"VibrartionSpeed": 0.91,
-					"TimeStamp": new Date(1563770000000),
-					"Status": "Active",
-					"OrderId": ""
-				},{
-					"VibrartionSpeed": 0.79,
-					"TimeStamp": new Date(1563870000000),
-					"Status": "Active",
-					"OrderId": ""
-				},{
-					"VibrartionSpeed": 0.87,
-					"TimeStamp": new Date(1563970000000),
-					"Status": "Active",
-					"OrderId": ""
-				}]
-			},{
-				"SensorId": "YU-902-AER-7590",
-				"MachineId": "567-TRE-45-OP",
-				"Location": "Dawson, Moura, Queensland, Australia",
-				"VibrationSpeed": 1.97,
-				"TimeStamp": new Date(1563970000000),
-				"Threshold": 2.00,
-				"MaxSpeed": 4,
-				"Delta": 10,
-				"Status": "Active",
-				"OrderId": "",
-				"InstallationTime": new Date(1523970000000),
-				"Make": "IYR-954",
-				"Model": "2006",
-				"Data": [{
-					"VibrartionSpeed": 2.01,
-					"TimeStamp": new Date(1562750000000),
-					"Status": "Active",
-					"OrderId": ""
-				},{
-					"VibrartionSpeed": 2.08,
-					"TimeStamp": new Date(1562850000000),
-					"Status": "Active",
-					"OrderId": ""
-				},{
-					"VibrartionSpeed": 2.03,
-					"TimeStamp": new Date(1562950000000),
-					"Status": "Active",
-					"OrderId": ""
-				},{
-					"VibrartionSpeed": 1.99,
-					"TimeStamp": new Date(1563000000000),
-					"Status": "Active",
-					"OrderId": ""
-				},{
-					"VibrartionSpeed": 2.22,
-					"TimeStamp": new Date(1563100000000),
-					"Status": "Active",
-					"OrderId": ""
-				},{
-					"VibrartionSpeed": 1.90,
-					"TimeStamp": new Date(1563200000000),
-					"Status": "Active",
-					"OrderId": ""
-				},{
-					"VibrartionSpeed": 1.95,
-					"TimeStamp": new Date(1563300000000),
-					"Status": "Active",
-					"OrderId": ""
-				},{
-					"VibrartionSpeed": 1.98,
-					"TimeStamp": new Date(1563350000000),
-					"Status": "Active",
-					"OrderId": ""
-				},{
-					"VibrartionSpeed": 2.05,
-					"TimeStamp": new Date(1563450000000),
-					"Status": "Active",
-					"OrderId": ""
-				},{
-					"VibrartionSpeed": 2.04,
-					"TimeStamp": new Date(1563550000000),
-					"Status": "Active",
-					"OrderId": ""
-				},{
-					"VibrartionSpeed": 2.03,
-					"TimeStamp": new Date(1563570000000),
-					"Status": "Active",
-					"OrderId": ""
-				},{
-					"VibrartionSpeed": 2.12,
-					"TimeStamp": new Date(1563670000000),
-					"Status": "Active",
-					"OrderId": ""
-				},{
-					"VibrartionSpeed": 1.91,
-					"TimeStamp": new Date(1563770000000),
-					"Status": "Active",
-					"OrderId": ""
-				},{
-					"VibrartionSpeed": 1.99,
-					"TimeStamp": new Date(1563870000000),
-					"Status": "Active",
-					"OrderId": ""
-				},{
-					"VibrartionSpeed": 1.97,
-					"TimeStamp": new Date(1563970000000),
-					"Status": "Active",
-					"OrderId": ""
-				}]
-			},{
-				"SensorId": "GD-862-UIK-1698",
-				"MachineId": "924-HLD-38-NM",
-				"Location": "Drayton, Hunter Valley, New South Wales, Australia",
-				"VibrationSpeed": 1.70,
-				"TimeStamp": new Date(1563970000000),
-				"Threshold": 1.20,
-				"MaxSpeed": 3,
-				"Delta": 10,
-				"Status": "Active",
-				"OrderId": "",
-				"InstallationTime": new Date(1513970000000),
-				"Make": "JHO-843",
-				"Model": "2008",
-				"Data": [{
-					"VibrartionSpeed": 1.27,
-					"TimeStamp": new Date(1562750000000),
-					"Status": "Active",
-					"OrderId": ""
-				},{
-					"VibrartionSpeed": 1.25,
-					"TimeStamp": new Date(1562850000000),
-					"Status": "Active",
-					"OrderId": ""
-				},{
-					"VibrartionSpeed": 1.28,
-					"TimeStamp": new Date(1562950000000),
-					"Status": "Active",
-					"OrderId": ""
-				},{
-					"VibrartionSpeed": 1.22,
-					"TimeStamp": new Date(1563000000000),
-					"Status": "Active",
-					"OrderId": ""
-				},{
-					"VibrartionSpeed": 1.22,
-					"TimeStamp": new Date(1563100000000),
-					"Status": "Active",
-					"OrderId": ""
-				},{
-					"VibrartionSpeed": 1.20,
-					"TimeStamp": new Date(1563200000000),
-					"Status": "Active",
-					"OrderId": ""
-				},{
-					"VibrartionSpeed": 1.22,
-					"TimeStamp": new Date(1563300000000),
-					"Status": "Active",
-					"OrderId": ""
-				},{
-					"VibrartionSpeed": 1.15,
-					"TimeStamp": new Date(1563350000000),
-					"Status": "Active",
-					"OrderId": ""
-				},{
-					"VibrartionSpeed": 1.18,
-					"TimeStamp": new Date(1563450000000),
-					"Status": "Active",
-					"OrderId": ""
-				},{
-					"VibrartionSpeed": 1.24,
-					"TimeStamp": new Date(1563550000000),
-					"Status": "Active",
-					"OrderId": ""
-				},{
-					"VibrartionSpeed": 1.23,
-					"TimeStamp": new Date(1563570000000),
-					"Status": "Active",
-					"OrderId": ""
-				},{
-					"VibrartionSpeed": 1.22,
-					"TimeStamp": new Date(1563670000000),
-					"Status": "Active",
-					"OrderId": ""
-				},{
-					"VibrartionSpeed": 1.11,
-					"TimeStamp": new Date(1563770000000),
-					"Status": "Active",
-					"OrderId": ""
-				},{
-					"VibrartionSpeed": 1.19,
-					"TimeStamp": new Date(1563870000000),
-					"Status": "Active",
-					"OrderId": ""
-				},{
-					"VibrartionSpeed": 1.70,
-					"TimeStamp": new Date(1563970000000),
-					"Status": "Active",
-					"OrderId": ""
-				}]
+				"Data": []
 			}];
 			
-			oVibrationSensorModel.setProperty("/SensorReading", jQuery.extend(true, [], aSensorData));
-			oVibrationSensorModel.setProperty("/SensorId", jQuery.extend(true, [], aSensorId));
-			oVibrationSensorModel.setProperty("/MachineId", jQuery.extend(true, [], aMachineId));
+			oVibrationSensorModel.setProperty("/Sensor", jQuery.extend(true, [], aSensors));
+			oVibrationSensorModel.setProperty("/Machine", jQuery.extend(true, [], aMachines));
 			oVibrationSensorModel.setProperty("/Status", jQuery.extend(true, [], aStatus));
 			oVibrationSensorModel.setProperty("/SearchColumn", jQuery.extend(true, [], aSearchColumns));
 			oVibrationSensorModel.setProperty("/UIFixedSensorData", jQuery.extend(true, [], aUIFixedSensorData));
+			oVibrationSensorModel.setProperty("/SelectedVibrationSensor", {});
 			
 			this.getOwnerComponent().setModel(oVibrationSensorModel, "VibrationSensorModel");
 			
 			this.getSCPData();
 		},
+		
+		onExit:function() {
+		    if (this.intervalHandle) {
+				clearInterval(this.intervalHandle);
+		    }
+		}, 
 		
 		getSCPData: function() {
 			jQuery.ajax({
@@ -744,8 +101,8 @@ sap.ui.define([
                 xhrFields: {
                     withCredentials: true
                 },
-                // username: "root",
-                // password: "wZDBqZjh6AL4GXB",
+                username: "root",
+                password: "wZDBqZjh6AL4GXB",
                 dataType: "json",
                 async: false,
                 success: function (data, textStatus, jqXHR) {
@@ -760,8 +117,8 @@ sap.ui.define([
 		                xhrFields: {
 		                    withCredentials: true
 		                },
-		                // username: "root",
-		                // password: "wZDBqZjh6AL4GXB",
+		                username: "root",
+		                password: "wZDBqZjh6AL4GXB",
 		                dataType: "json",
 		                async: false,
 		                success: function (data, textStatus, jqXHR) {
@@ -824,19 +181,167 @@ sap.ui.define([
 				}
 			}
 			
-			for (var intN = 0; intN < aUIFixedSensorData.length; intN++) {
+			for (var intS = 0; intS < aUIFixedSensorData.length; intS++) {
 				aNotificationData.filter(function(oNotificationData) {
-					if(oNotificationData.Eqktx === aUIFixedSensorData[intN].MachineName && oNotificationData.Qmnum !== "") {
-						aUIFixedSensorData[intN].OrderId = oNotificationData.Qmnum;
-						aUIFixedSensorData[intN].Status = "BreakDown";
+					if(oNotificationData.Eqktx === aUIFixedSensorData[intS].MachineName && oNotificationData.Qmnum !== "") {
+						aUIFixedSensorData[intS].OrderId = oNotificationData.Qmnum;
+						aUIFixedSensorData[intS].Status = "BreakDown";
+						aUIFixedSensorData[intS].EquipmentNumber = oNotificationData.Equnr;
 					}
 				});
 			}
 			
-			// aUIFixedSensorData[0].OrderId = "10000151";
-			// aUIFixedSensorData[0].Status = "BreakDown";
+			oVibrationSensorModel.setProperty("/UIFixedSensorData", jQuery.extend(true, [], aUIFixedSensorData));
+			
+			for (var intR = 0; intR < aUIFixedSensorData.length; intR++) {
+				if(aUIFixedSensorData[intR].OrderId === "" && 
+						(aUIFixedSensorData[intR].VibrationSpeed < 1 || aUIFixedSensorData[intR].VibrationSpeed > 15)) {
+							
+					this.maintainanceOrWorkOrder(aUIFixedSensorData[intR].EquipmentNumber);
+				}
+			}
+			
+			this.updateModelData();
+		},
+		
+		updateModelData: function() {
+			var self = this;
+				this.intervalHandle = setInterval(function() { 
+				  self.refreshModelData();
+			},  120000);
+		},
+		
+		refreshModelData: function() {
+			jQuery.ajax({
+                type: "GET",
+                contentType: "application/json",
+                crossDomain: true,
+                url: "https://" + "4ec5ecac-dc28-4411-83d5-7f3377a7790c.eu10.cp.iot.sap/iot/processing/api/v1/tenant/590260208/measures/capabilities/9de0d630-5d08-46d6-b97c-29a558de820a?top=200&orderby=timestamp%20desc",
+                xhrFields: {
+                    withCredentials: true
+                },
+                username: "root",
+                password: "wZDBqZjh6AL4GXB",
+                dataType: "json",
+                async: false,
+                success: function (data, textStatus, jqXHR) {
+                    this.getOwnerComponent().getModel("VibrationSensorModel").setProperty("/ServerIOTData", jQuery.extend(true, [], data));
+                    this.getOwnerComponent().getModel().read("/EquipNotifSet", {success: function(oData) {
+                    	this.getOwnerComponent().getModel("VibrationSensorModel").setProperty("/NotificationData", oData.results);
+		            	this.modifyDynamicallyRefreshedData();
+		            }.bind(this)});
+                }.bind(this),
+                error: function (oError) {
+                    console.log(oError);
+                }.bind(this)
+			});
+		},
+		
+		modifyDynamicallyRefreshedData: function() {
+			var oVibrationSensorModel = this.getOwnerComponent().getModel("VibrationSensorModel");
+			var aIOTData = jQuery.extend(true, [], oVibrationSensorModel.getProperty("/ServerIOTData")); 
+			var aUIFixedSensorData = jQuery.extend(true, [], oVibrationSensorModel.getProperty("/UIFixedSensorData"));
+			var aParticularDeviceData = [];
+			var aNotificationData = jQuery.extend(true, [], oVibrationSensorModel.getProperty("/NotificationData"));
+			
+			for (var intK = 0; intK < aIOTData.length; intK++) {
+		    	aIOTData[intK].timestamp = new Date(aIOTData[intK].timestamp);
+		    }
+			
+			for (var intI = 0; intI < aUIFixedSensorData.length; intI++) {
+				aParticularDeviceData = [];
+				aParticularDeviceData = aIOTData.filter(function(oIOTData) {
+					return oIOTData.sensorId === aUIFixedSensorData[intI].SensorId;
+				});
+				
+				aNotificationData.filter(function(oNotificationData) {
+					if(oNotificationData.Eqktx === aUIFixedSensorData[intI].MachineName) {
+						aUIFixedSensorData[intI].OrderId = oNotificationData.Qmnum;
+					}
+				});
+				
+				aUIFixedSensorData[intI].Status = (aUIFixedSensorData[intI].OrderId !== "") ? "BreakDown" : "Active";
+				aUIFixedSensorData[intI].Data = aParticularDeviceData;
+				aUIFixedSensorData[intI].TimeStamp = new Date(aParticularDeviceData[0].timestamp);
+				aUIFixedSensorData[intI].VibrationSpeed = aParticularDeviceData[0].measure.maxvib;
+			}
 			
 			oVibrationSensorModel.setProperty("/UIFixedSensorData", jQuery.extend(true, [], aUIFixedSensorData));
+			
+			if(!jQuery.isEmptyObject(oVibrationSensorModel.getProperty("/SelectedVibrationSensor"))) {
+				var oSensorId = oVibrationSensorModel.getProperty("/SelectedVibrationSensor/SensorId");
+				var iMatchIndex = this.findWithAttr(aUIFixedSensorData, "SensorId", oSensorId);
+				var oUpdatedData = jQuery.extend(true, {}, aUIFixedSensorData[iMatchIndex]);
+				
+				oVibrationSensorModel.setProperty("/SelectedVibrationSensor", oUpdatedData);
+			}
+			
+			for (var intJ = 0; intJ < aUIFixedSensorData.length; intJ++) {
+				if(aUIFixedSensorData[intJ].OrderId === "" && 
+						(aUIFixedSensorData[intJ].VibrationSpeed < 1 || aUIFixedSensorData[intJ].VibrationSpeed > 15)) {
+							
+					this.maintainanceOrWorkOrder(aUIFixedSensorData[intJ].EquipmentNumber);
+				}
+			}
+		},
+		
+		maintainanceOrWorkOrder: function(sEquipmentNumber) {
+			this.getOwnerComponent().getModel().read(this.getOwnerComponent().getModel().createKey("/Maintenance_PlanSet", 
+				{Equnr: sEquipmentNumber}), 
+				{success: function(oData) {
+                	if(oData.Nplda && oData.Nplda.getTime() > 0) {
+                		MessageBox.show("Information", {
+							icon: MessageBox.Icon.INFORMATION,
+							title: "Maintainance Order",
+							actions: [MessageBox.Action.OK],
+							details: "Maintenance order " + oData.Warpl + " for machine " + oData.Equnr + " is scheduled on " + oData.Nplda
+						});
+                	} else {
+                		this.getOwnerComponent().getModel().create("/EquipNotifSet",
+							{Equnr: oData.Equnr, Eqktx: this.getMachineName(oData.Equnr)}, 
+							{success: function(oResultData) {
+		                    	this.updateWorkOrderData(oResultData);
+			            	}.bind(this)
+						});
+                	}
+            	}.bind(this)
+			});
+		},
+		
+		getMachineName: function(sEquipmentNumber) {
+			var aUIFixedSensorData = jQuery.extend(true, [], this.getOwnerComponent().getModel("VibrationSensorModel").getProperty(
+				"/UIFixedSensorData"));
+			var iMatchIndex = this.findWithAttr(aUIFixedSensorData, "EquipmentNumber", sEquipmentNumber);
+			
+			return aUIFixedSensorData[iMatchIndex].MachineName;
+		},
+		
+		updateWorkOrderData: function(oData) {
+			var oVibrationSensorModel = this.getOwnerComponent().getModel("VibrationSensorModel");
+			var aUIFixedSensorData = jQuery.extend(true, [], oVibrationSensorModel.getProperty("/UIFixedSensorData"));
+			var iMatchIndex = this.findWithAttr(aUIFixedSensorData, "EquipmentNumber", oData.Equnr);
+			
+			aUIFixedSensorData[iMatchIndex].Status = "BreakDown";
+		    aUIFixedSensorData[iMatchIndex].OrderId = oData.Qmnum;
+		    
+		    oVibrationSensorModel.setProperty("/UIFixedSensorData", jQuery.extend(true, [], aUIFixedSensorData));
+		    
+		    if(!jQuery.isEmptyObject(oVibrationSensorModel.getProperty("/SelectedVibrationSensor"))) {
+				var oSensorId = oVibrationSensorModel.getProperty("/SelectedVibrationSensor/SensorId");
+				var iSensorIndex = this.findWithAttr(aUIFixedSensorData, "SensorId", oSensorId);
+				var oUpdatedData = jQuery.extend(true, {}, aUIFixedSensorData[iSensorIndex]);
+				
+				oVibrationSensorModel.setProperty("/SelectedVibrationSensor", oUpdatedData);
+			}
+		},
+		
+		findWithAttr: function(aColumnList, sAttr, sValue) {
+			for (var intI = 0; intI < aColumnList.length; intI += 1) {
+				if (aColumnList[intI] && aColumnList[intI][sAttr] === sValue) {
+					return intI;
+				}
+			}
+			return -1;
 		},
 		
 		formatBulletMicroChartGood1: function(iThreshold, iDelta) {
@@ -846,17 +351,6 @@ sap.ui.define([
 		formatBulletMicroChartGood2: function(iThreshold, iDelta) {
 			return (Math.round((iThreshold + ((iThreshold * iDelta) / 100)) * 100) / 100);
 		},
-		
-		// formatBulletMicroChart: function(iVibrationSpeed, iThreshold, iDelta) {
-		// 	var iThresholdLowerLimit = (Math.round((iThreshold - ((iThreshold * iDelta) / 100)) * 100) / 100);
-		// 	var iThresholdUpperLimit = (Math.round((iThreshold + ((iThreshold * iDelta) / 100)) * 100) / 100);
-			
-		// 	if(iVibrationSpeed >= iThresholdLowerLimit && iThresholdUpperLimit >= iVibrationSpeed) {
-		// 		return "Good";
-		// 	} else {
-		// 		return "Critical";
-		// 	}
-		// },
 		
 		formatBulletMicroChart: function(iVibrationSpeed) {
 			if(iVibrationSpeed >= 2 && iVibrationSpeed < 5) {
@@ -885,8 +379,8 @@ sap.ui.define([
         onPressSearch: function(oEvent) {
         	var sSearchQuery = this.getView().byId("idSearchField").getValue();
         	var aTableColumns = this.getOwnerComponent().getModel("VibrationSensorModel").getProperty("/SearchColumn");
-        	var sSensorId = this.getView().byId("idSensorIdField").getValue();
-        	var sMachineId = this.getView().byId("idMachineIdField").getValue(); 
+        	var sSensor = this.getView().byId("idSensorField").getValue();
+        	var sMachine = this.getView().byId("idMachineField").getValue(); 
         	var sStatus = this.getView().byId("idStatusField").getValue();
         	var aFilters = [];
         	
@@ -898,12 +392,12 @@ sap.ui.define([
         		}
     		 }
         	
-        	if(sSensorId) {
-        		aFilters.push(new Filter("SensorId", FilterOperator.Contains, sSensorId));
+        	if(sSensor) {
+        		aFilters.push(new Filter("SensorName", FilterOperator.Contains, sSensor));
         	}
         	
-        	if(sMachineId) {
-        		aFilters.push(new Filter("MachineId", FilterOperator.Contains, sMachineId));
+        	if(sMachine) {
+        		aFilters.push(new Filter("MachineName", FilterOperator.Contains, sMachine));
         	}
         	
         	if(sStatus) {

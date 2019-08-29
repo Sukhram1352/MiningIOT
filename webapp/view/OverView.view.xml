@@ -11,25 +11,25 @@
 							<SearchField id="idSearchField" placeholder=""></SearchField>
 						</fb:control>
 					</fb:FilterItem>
-					<fb:FilterItem label="Sensor ID" name="SensorId">
+					<fb:FilterItem label="Sensor" name="Sensor">
 						<fb:control>
 							<ComboBox
 								items="{
-									path: 'VibrationSensorModel>/SensorId',
-									sorter: { path: 'SensorId' }
-								}" id="idSensorIdField">
-								<core:Item key="{VibrationSensorModel>SensorId}" text="{VibrationSensorModel>SensorId}" />
+									path: 'VibrationSensorModel>/Sensor',
+									sorter: { path: 'Sensor' }
+								}" id="idSensorField">
+								<core:Item key="{VibrationSensorModel>Sensor}" text="{VibrationSensorModel>Sensor}" />
 							</ComboBox>
 						</fb:control>
 					</fb:FilterItem>
-					<fb:FilterItem label="Machine ID" name="MachineId">
+					<fb:FilterItem label="Machine" name="Machine">
 						<fb:control>
 							<ComboBox
 								items="{
-									path: 'VibrationSensorModel>/MachineId',
-									sorter: { path: 'MachineId' }
-								}" id="idMachineIdField">
-								<core:Item key="{VibrationSensorModel>MachineId}" text="{VibrationSensorModel>MachineId}" />
+									path: 'VibrationSensorModel>/Machine',
+									sorter: { path: 'Machine' }
+								}" id="idMachineField">
+								<core:Item key="{VibrationSensorModel>Machine}" text="{VibrationSensorModel>Machine}" />
 							</ComboBox>
 						</fb:control>
 					</fb:FilterItem>
