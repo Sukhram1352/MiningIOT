@@ -122,7 +122,7 @@ sap.ui.define([
 		                dataType: "json",
 		                async: false,
 		                success: function (data, textStatus, jqXHR) {
-		                    this.getOwnerComponent().getModel("VibrationSensorModel").setProperty("/ServerIOTData", jQuery.extend(true, [], data.value));
+		                    this.getOwnerComponent().getModel("VibrationSensorModel").setProperty("/ServerIOTData", jQuery.extend(true, [], data));
 		                    this.getOwnerComponent().getModel().read("/EquipNotifSet", {success: function(oData) {
 		                    	this.getOwnerComponent().getModel("VibrationSensorModel").setProperty("/NotificationData", oData.results);
 				            	this.modifyServerData();
