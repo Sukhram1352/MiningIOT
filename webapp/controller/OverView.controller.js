@@ -53,7 +53,19 @@ sap.ui.define([
 				"InstallationTime": new Date(1523970000000),
 				"Make": "HJR-493",
 				"Model": "2007",
-				"Data": []
+				"Data": [{
+					"TimeStamp": new Date(1523970000000),
+					 "Category":"A",
+					"VibrationSpeed": "10"
+				},{
+					"TimeStamp": new Date(1523980000000),
+					 "Category":"B",
+					"VibrationSpeed": "11"
+				},{
+					"TimeStamp": new Date(1523990000000),
+					 "Category":"C",
+					"VibrationSpeed": "12"
+				}]
 			},{
 				"SensorId": "7d23b5db-2cd0-4c1e-b6df-633fdc5bd420",
 				"MachineId": "3dbdb0d8-3b8a-482b-b299-2f18347a8d5d",
@@ -71,7 +83,16 @@ sap.ui.define([
 				"InstallationTime": new Date(1533970000000),
 				"Make": "TSR-123",
 				"Model": "2005",
-				"Data": []
+				"Data": [{
+					"TimeStamp": new Date(1523970000000),
+					"VibrationSpeed": "10"
+				},{
+					"TimeStamp": new Date(1523980000000),
+					"VibrationSpeed": "11"
+				},{
+					"TimeStamp": new Date(1523990000000),
+					"VibrationSpeed": "12"
+				}]
 			}];
 			
 			oVibrationSensorModel.setProperty("/Sensor", jQuery.extend(true, [], aSensors));

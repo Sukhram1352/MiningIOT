@@ -12,7 +12,51 @@ sap.ui.define([
 		 * @memberOf miningIOT.MiningIOT.view.DetailVibrationView
 		 */
 		onInit: function () {
-			
+			  //Format.numericFormatter(ChartFormatter.getInstance());
+     //       var formatPattern = ChartFormatter.DefaultPattern;
+     //       // set explored app's demo model on this sample
+     //       var oModel = new JSONModel(this.settingsModel);
+     //       oModel.setDefaultBindingMode(BindingMode.OneWay);
+     //       this.getView().setModel(oModel);
+
+            var oVizFrame = this.oVizFrame = this.getView().byId("idVizFrame");
+            // oVizFrame.setVizProperties({
+            //     plotArea: {
+            //         dataLabel: {
+            //             formatString: formatPattern.SHORTFLOAT_MFD2,
+            //             visible: true
+            //         }
+            //     },
+            //     valueAxis: {
+            //         label: {
+            //             formatString: formatPattern.SHORTFLOAT
+            //         },
+            //         title: {
+            //             visible: false
+            //         }
+            //     },
+            //     categoryAxis: {
+            //         title: {
+            //             visible: false
+            //         }
+            //     },
+            //     title: {
+            //         visible: false,
+            //         text: 'Revenue by City and Store Name'
+            //     }
+            // });
+            // var dataModel = new JSONModel(this.dataPath + "/medium.json");
+            oVizFrame.setModel(this.getOwnerComponent().getModel("VibrationSensorModel"), "VibrationSensorModel");
+
+            var oPopOver = this.getView().byId("idPopOver");
+            oPopOver.connect(oVizFrame.getVizUid());
+            //oPopOver.setFormatString(formatPattern.STANDARDFLOAT);
+
+            // InitPageUtil.initPageSettings(this.getView());
+            // var that = this;
+            // dataModel.attachRequestCompleted(function() {
+            //     that.dataSort(this.getData());
+            // });
 		},
 		
 		formatNotificationLink: function(sNotificationNumber) {
