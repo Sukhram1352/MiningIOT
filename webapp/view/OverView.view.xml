@@ -51,7 +51,7 @@
 					</fb:FilterItem>
 				</fb:filterItems>
 			</fb:FilterBar>
-			<l:VerticalLayout class="sapUiSmallMargin">
+			<l:VerticalLayout class="sapUiTinyMarginTop">
 				<Table width="100%" 
 				        id="idVibrationTableSensorTable"
 						items="{VibrationSensorModel>/UIFixedSensorData}" 

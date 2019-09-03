@@ -53,19 +53,7 @@ sap.ui.define([
 				"InstallationTime": new Date(1523970000000),
 				"Make": "HJR-493",
 				"Model": "2007",
-				"Data": [{
-					"TimeStamp": new Date(1523970000000),
-					 "Category":"A",
-					"VibrationSpeed": "10"
-				},{
-					"TimeStamp": new Date(1523980000000),
-					 "Category":"B",
-					"VibrationSpeed": "11"
-				},{
-					"TimeStamp": new Date(1523990000000),
-					 "Category":"C",
-					"VibrationSpeed": "12"
-				}]
+				"Data": []
 			},{
 				"SensorId": "7d23b5db-2cd0-4c1e-b6df-633fdc5bd420",
 				"MachineId": "3dbdb0d8-3b8a-482b-b299-2f18347a8d5d",
@@ -83,16 +71,7 @@ sap.ui.define([
 				"InstallationTime": new Date(1533970000000),
 				"Make": "TSR-123",
 				"Model": "2005",
-				"Data": [{
-					"TimeStamp": new Date(1523970000000),
-					"VibrationSpeed": "10"
-				},{
-					"TimeStamp": new Date(1523980000000),
-					"VibrationSpeed": "11"
-				},{
-					"TimeStamp": new Date(1523990000000),
-					"VibrationSpeed": "12"
-				}]
+				"Data": []
 			}];
 			
 			oVibrationSensorModel.setProperty("/Sensor", jQuery.extend(true, [], aSensors));
@@ -133,7 +112,7 @@ sap.ui.define([
 		                type: "GET",
 		                contentType: "application/json",
 		                crossDomain: true,
-		                url: "https://" + "4ec5ecac-dc28-4411-83d5-7f3377a7790c.eu10.cp.iot.sap/iot/processing/api/v1/tenant/590260208/measures/capabilities/9de0d630-5d08-46d6-b97c-29a558de820a?top=200&orderby=timestamp%20desc",
+		                url: "https://" + "4ec5ecac-dc28-4411-83d5-7f3377a7790c.eu10.cp.iot.sap/iot/processing/api/v1/tenant/590260208/measures/capabilities/9de0d630-5d08-46d6-b97c-29a558de820a?top=100&orderby=timestamp%20desc",
 		                 //url: "https://ibso-iot-services-poc.leonardo-iot.cfapps.eu10.hana.ondemand.com/comsapleonardoiot.iotuithingmodelerodata/appiot-mds/Things('4F88162A2BC542E78EA7EE6695F59B9D')/ibso.iotservicespoc.mining.demo:VibrationType/VibrationThingDemo?timerange=3M",
 		                xhrFields: {
 		                    withCredentials: true
@@ -237,7 +216,7 @@ sap.ui.define([
                 type: "GET",
                 contentType: "application/json",
                 crossDomain: true,
-                url: "https://" + "4ec5ecac-dc28-4411-83d5-7f3377a7790c.eu10.cp.iot.sap/iot/processing/api/v1/tenant/590260208/measures/capabilities/9de0d630-5d08-46d6-b97c-29a558de820a?top=200&orderby=timestamp%20desc",
+                url: "https://" + "4ec5ecac-dc28-4411-83d5-7f3377a7790c.eu10.cp.iot.sap/iot/processing/api/v1/tenant/590260208/measures/capabilities/9de0d630-5d08-46d6-b97c-29a558de820a?top=100&orderby=timestamp%20desc",
                 xhrFields: {
                     withCredentials: true
                 },
