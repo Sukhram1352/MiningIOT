@@ -183,9 +183,11 @@ sap.ui.define([
 			
 			for (var intS = 0; intS < aUIFixedSensorData.length; intS++) {
 				aNotificationData.filter(function(oNotificationData) {
-					if(oNotificationData.Eqktx === aUIFixedSensorData[intS].MachineName && oNotificationData.Qmnum !== "") {
-						aUIFixedSensorData[intS].OrderId = oNotificationData.Qmnum;
-						aUIFixedSensorData[intS].Status = "BreakDown";
+					if(oNotificationData.Eqktx === aUIFixedSensorData[intS].MachineName) {
+						if(oNotificationData.Qmnum !== "") {
+							aUIFixedSensorData[intS].OrderId = oNotificationData.Qmnum;
+							aUIFixedSensorData[intS].Status = "BreakDown";
+						}
 						aUIFixedSensorData[intS].EquipmentNumber = oNotificationData.Equnr;
 					}
 				});
@@ -262,8 +264,11 @@ sap.ui.define([
 				
 				aUIFixedSensorData[intI].Status = (aUIFixedSensorData[intI].OrderId !== "") ? "BreakDown" : "Active";
 				aUIFixedSensorData[intI].Data = aParticularDeviceData;
-				aUIFixedSensorData[intI].TimeStamp = new Date(aParticularDeviceData[0].timestamp);
-				aUIFixedSensorData[intI].VibrationSpeed = aParticularDeviceData[0].measure.maxvib;
+				
+				if(aParticularDeviceData.length > 0) {
+					aUIFixedSensorData[intI].TimeStamp = new Date(aParticularDeviceData[0].timestamp);
+					aUIFixedSensorData[intI].VibrationSpeed = aParticularDeviceData[0].measure.maxvib;
+				}
 			}
 			
 			oVibrationSensorModel.setProperty("/UIFixedSensorData", jQuery.extend(true, [], aUIFixedSensorData));
@@ -278,7 +283,8 @@ sap.ui.define([
 			
 			for (var intJ = 0; intJ < aUIFixedSensorData.length; intJ++) {
 				if(aUIFixedSensorData[intJ].OrderId === "" && 
-						(aUIFixedSensorData[intJ].VibrationSpeed < 1 || aUIFixedSensorData[intJ].VibrationSpeed > 15)) {
+						(aUIFixedSensorData[intJ].VibrationSpeed !== "" && 
+						(aUIFixedSensorData[intJ].VibrationSpeed < 1 || aUIFixedSensorData[intJ].VibrationSpeed > 15))) {
 							
 					this.maintainanceOrWorkOrder(aUIFixedSensorData[intJ].EquipmentNumber);
 				}
@@ -294,7 +300,7 @@ sap.ui.define([
 							icon: MessageBox.Icon.INFORMATION,
 							title: "Maintainance Order",
 							actions: [MessageBox.Action.OK],
-							details: "Maintenance order " + oData.Warpl + " for machine " + oData.Equnr + " is scheduled on " + oData.Nplda
+							details: "Maintenance order " + oData.Warpl + " for machine " + this.getMachineName(oData.Equnr) + " is scheduled on " + oData.Nplda
 						});
                 	} else {
                 		this.getOwnerComponent().getModel().create("/EquipNotifSet",
