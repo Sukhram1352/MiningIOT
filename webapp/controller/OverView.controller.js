@@ -34,7 +34,7 @@ sap.ui.define([
 				"Status": "BreakDown"
 			}];
 			
-			var aSearchColumns = ["Sensor", "Machine", "Location", "Status", "OrderId"];
+			var aSearchColumns = ["SensorName", "MachineName", "Location", "Status", "OrderId"]; 
 			
 			var aUIFixedSensorData = [{
 				"SensorId": "7512a84c-8c46-4c8d-9ea7-5886b2e8cdf4",
@@ -42,7 +42,7 @@ sap.ui.define([
 				"EquipmentNumber": "",
 				"SensorName": "",
 				"MachineName": "",
-				"Location": "Beltana, Singleton, New South Wales, Australia",
+				"Location": "Point Impossible Beach, Victoria, Australia",
 				"VibrationSpeed": "",
 				"TimeStamp": "",
 				"Threshold": 0.55,
@@ -91,6 +91,28 @@ sap.ui.define([
 				clearInterval(this.intervalHandle);
 		    }
 		}, 
+		
+		onAfterRendering: function() {
+			var oMyOptions = {zoom:12,
+			                 center:new google.maps.LatLng(20,77),
+			                 mapTypeId: google.maps.MapTypeId.ROADMAP
+			                 };
+			var oMap = new google.maps.Map(this.getView().byId("idGoogleMapTrial").getDomRef(), oMyOptions);
+			
+			var oMarker1 = new google.maps.Marker({map: oMap,
+											 position: new google.maps.LatLng(-38.3860094, 144.1810526)
+			});
+			
+			var oMarker2 = new google.maps.Marker({map: oMap,
+				                             position: new google.maps.LatLng(-38.3122321,144.3629695)
+			});
+			
+			var oInfowindow2 = new google.maps.InfoWindow({content:'<strong></strong><br>MySensorMQ<br>'});
+	        oInfowindow2.open(oMap, oMarker2);
+			
+			var oInfowindow1 = new google.maps.InfoWindow({content:'<strong></strong><br>MySensor<br>'});
+	        oInfowindow1.open(oMap, oMarker1);
+		},
 		
 		getSCPData: function() {
 			jQuery.ajax({
@@ -406,18 +428,22 @@ sap.ui.define([
     		 }
         	
         	if(sSensor) {
-        		aFilters.push(new Filter("SensorName", FilterOperator.Contains, sSensor));
+        		aFilters.push(new Filter("SensorName", FilterOperator.EQ, sSensor));
         	}
         	
         	if(sMachine) {
-        		aFilters.push(new Filter("MachineName", FilterOperator.Contains, sMachine));
+        		aFilters.push(new Filter("MachineName", FilterOperator.EQ, sMachine));
         	}
         	
         	if(sStatus) {
-        		aFilters.push(new Filter("Status", FilterOperator.Contains, sStatus));
+        		aFilters.push(new Filter("Status", FilterOperator.EQ, sStatus));
         	}
         	
-        	this.getView().byId("idVibrationTableSensorTable").getBinding("items").filter((new Filter(aFilters, false))); 
+        	if(aFilters.length > 0) {
+        		this.getView().byId("idVibrationTableSensorTable").getBinding("items").filter(new Filter(aFilters, false)); 
+        	} else {
+        		this.getView().byId("idVibrationTableSensorTable").getBinding("items").filter();
+        	}
         }
 	});
 

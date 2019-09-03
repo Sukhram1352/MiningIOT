@@ -8,7 +8,7 @@
 				<fb:filterItems>
 					<fb:FilterItem label="Search" name="BasicSearch">
 						<fb:control>
-							<SearchField id="idSearchField" placeholder=""></SearchField>
+							<Input id="idSearchField" placeholder=""></Input>
 						</fb:control>
 					</fb:FilterItem>
 					<fb:FilterItem label="Sensor" name="Sensor">
@@ -121,6 +121,10 @@
 						</ColumnListItem>
 					</items>
 				</Table>
+				<VBox height="35rem" 
+					  id="idGoogleMapTrial"
+					  class="sapUiSmallMarginTopBottom sapUiMediumMarginEnd">
+				</VBox>
 			</l:VerticalLayout>
 		</semantic:content>
 	</semantic:FullscreenPage>
