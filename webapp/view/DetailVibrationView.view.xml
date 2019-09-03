@@ -138,33 +138,6 @@
 				<ObjectPageSubSection >
 					<blocks>
 						<m:VBox>
-							<OverflowToolbar>
-								<Label text="OverflowToolbar provides a See more (...) button for overflow.">
-									<layoutData>
-										<ToolbarLayoutData shrinkable="false" />
-									</layoutData>
-								</Label>
-								<Button text="Accept" type="Accept">
-									<layoutData>
-										<ToolbarLayoutData shrinkable="true" />
-									</layoutData>
-								</Button>
-								<Label text="This is a long non-shrinkable label">
-									<layoutData>
-										<ToolbarLayoutData shrinkable="false" />
-									</layoutData>
-								</Label>
-								<Button text="Reject" type="Reject">
-									<layoutData>
-										<ToolbarLayoutData shrinkable="true" />
-									</layoutData>
-								</Button>
-								<Button text="Big Big Big Big Big Big Big Big Button">
-									<layoutData>
-										<ToolbarLayoutData shrinkable="true" />
-									</layoutData>
-								</Button>
-							</OverflowToolbar>
 							<viz:VizFrame id="idVizFrame" vizProperties="{ title: {text : 'Max Vibration Speed vs Time', visible : true}}" 
 								uiConfig="{applicationSet:'fiori'}" height='500px' width="100%" vizType='line'>
 								<viz:dataset>
