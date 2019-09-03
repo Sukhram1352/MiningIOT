@@ -272,6 +272,9 @@ sap.ui.define([
 				if(aParticularDeviceData.length > 0) {
 					aUIFixedSensorData[intI].TimeStamp = new Date(aParticularDeviceData[0].timestamp);
 					aUIFixedSensorData[intI].VibrationSpeed = aParticularDeviceData[0].measure.maxvib;
+				} else {
+					aUIFixedSensorData[intI].TimeStamp = "";
+					aUIFixedSensorData[intI].VibrationSpeed = "";
 				}
 			}
 			
