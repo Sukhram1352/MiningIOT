@@ -175,6 +175,9 @@ sap.ui.define([
 						    for (var intN = 0; intN < aSensors[intL].Data.length; intN++) {
 						    	aSensors[intL].Data[intN].timestamp = new Date(aSensors[intL].Data[intN].timestamp);
 						    }
+						} else {
+							aUIFixedSensorData[intK].VibrationSpeed = "";
+						    aUIFixedSensorData[intK].TimeStamp = "";
 						}
 						aUIFixedSensorData[intK].Data = aSensors[intL].Data;
 					}
@@ -197,7 +200,8 @@ sap.ui.define([
 			
 			for (var intR = 0; intR < aUIFixedSensorData.length; intR++) {
 				if(aUIFixedSensorData[intR].OrderId === "" && 
-						(aUIFixedSensorData[intR].VibrationSpeed < 1 || aUIFixedSensorData[intR].VibrationSpeed > 15)) {
+						(aUIFixedSensorData[intJ].VibrationSpeed !== "" && 
+						(aUIFixedSensorData[intR].VibrationSpeed < 1 || aUIFixedSensorData[intR].VibrationSpeed > 15))) {
 							
 					this.maintainanceOrWorkOrder(aUIFixedSensorData[intR].EquipmentNumber);
 				}
