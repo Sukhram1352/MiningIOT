@@ -327,9 +327,8 @@ sap.ui.define([
                 	if(oData.Nplda && oData.Nplda.getTime() > 0) {
                 		MessageBox.show("Information", {
 							icon: MessageBox.Icon.INFORMATION,
-							title: "Maintainance Order",
-							actions: [MessageBox.Action.OK],
-							details: "Maintenance order " + oData.Warpl + " for machine " + this.getMachineName(oData.Equnr) + " is scheduled on " + oData.Nplda
+							title: "Maintenance order " + oData.Warpl + " for machine " + this.getMachineName(oData.Equnr) + " is scheduled on " + oData.Nplda,
+							actions: [MessageBox.Action.OK]
 						});
                 	} else {
                 		this.getOwnerComponent().getModel().create("/EquipNotifSet",
