@@ -313,7 +313,7 @@ sap.ui.define([
 			for (var intJ = 0; intJ < aUIFixedSensorData.length; intJ++) {
 				if(aUIFixedSensorData[intJ].OrderId === "" && 
 						(aUIFixedSensorData[intJ].VibrationSpeed !== "" && 
-						(aUIFixedSensorData[intJ].VibrationSpeed < 1 || aUIFixedSensorData[intJ].VibrationSpeed > 15))) {
+						(aUIFixedSensorData[intJ].VibrationSpeed < 2 || aUIFixedSensorData[intJ].VibrationSpeed > 7))) {
 							
 					this.maintainanceOrWorkOrder(aUIFixedSensorData[intJ].EquipmentNumber);
 				}

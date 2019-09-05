@@ -35,9 +35,9 @@
 				<m:ObjectAttribute title="Maximum Speed (in Hertz)" text="{VibrationSensorModel>/SelectedVibrationSensor/MaxSpeed}"></m:ObjectAttribute>
 			</layout:VerticalLayout>
 			<layout:VerticalLayout>
-				<m:ObjectStatus text="{VibrationSensorModel>/SelectedVibrationSensor/Status}" state="Success" class="vibrationSensorActiveStatus"
+				<m:ObjectStatus text="Healthy" state="Success" class="vibrationSensorActiveStatus"
 					visible="{= ${VibrationSensorModel>/SelectedVibrationSensor/Status} === 'Active'}"/>
-				<m:ObjectStatus text="{VibrationSensorModel>/SelectedVibrationSensor/Status}" state="Error" class="vibrationSensorBreakDownStatus"
+				<m:ObjectStatus text="Critical" state="Error" class="vibrationSensorBreakDownStatus"
 					visible="{= ${VibrationSensorModel>/SelectedVibrationSensor/Status} === 'BreakDown'}"/>
 				<m:Link text="{VibrationSensorModel>/SelectedVibrationSensor/OrderId}"
 					visible="{= ${VibrationSensorModel>/SelectedVibrationSensor/Status} === 'BreakDown'}" target="_blank"
@@ -147,48 +147,52 @@
 										</viz.data:dimensions>
 										<viz.data:measures>
 											<viz.data:MeasureDefinition name="Max Vibration Speed" value="{VibrationSensorModel>measure/maxvib}"/>
-										</viz.data:measures>
-									</viz.data:FlattenedDataset>
-								</viz:dataset>
-								<viz:feeds>
-									<viz.feeds:FeedItem id='valueAxisFeed' uid="valueAxis" type="Measure" values="Max Vibration Speed"/>
-									<viz.feeds:FeedItem id='categoryAxisFeed' uid="categoryAxis" type="Dimension" values="Time"/>
-								</viz:feeds>
-							</viz:VizFrame>
-							<viz:VizFrame id="idVizFrame1" vizProperties="{ title: {text : 'Temperature vs Time', visible : true}}" 
-								uiConfig="{applicationSet:'fiori'}" height='500px' width="100%" vizType='line'>
-								<viz:dataset>
-									<viz.data:FlattenedDataset data="{VibrationSensorModel>/SelectedVibrationSensor/Data}">
-										<viz.data:dimensions>
-											<viz.data:DimensionDefinition name="Time" value="{path:'VibrationSensorModel>timestamp', type:'sap.ui.model.odata.type.DateTimeOffset'}"/>
-										</viz.data:dimensions>
-										<viz.data:measures>
 											<viz.data:MeasureDefinition name="Temperature" value="{VibrationSensorModel>measure/temperature}"/>
-										</viz.data:measures>
-									</viz.data:FlattenedDataset>
-								</viz:dataset>
-								<viz:feeds>
-									<viz.feeds:FeedItem id='valueAxisFeed1' uid="valueAxis" type="Measure" values="Temperature"/>
-									<viz.feeds:FeedItem id='categoryAxisFeed1' uid="categoryAxis" type="Dimension" values="Time"/>
-								</viz:feeds>
-							</viz:VizFrame>
-							<viz:VizFrame id="idVizFrame2" vizProperties="{ title: {text : 'Humidity vs Time', visible : true}}" 
-								uiConfig="{applicationSet:'fiori'}" height='500px' width="100%" vizType='line'>
-								<viz:dataset>
-									<viz.data:FlattenedDataset data="{VibrationSensorModel>/SelectedVibrationSensor/Data}">
-										<viz.data:dimensions>
-											<viz.data:DimensionDefinition name="Time" value="{path:'VibrationSensorModel>timestamp', type:'sap.ui.model.odata.type.DateTimeOffset'}"/>
-										</viz.data:dimensions>
-										<viz.data:measures>
 											<viz.data:MeasureDefinition name="Humidity" value="{VibrationSensorModel>measure/humidity}"/>
 										</viz.data:measures>
 									</viz.data:FlattenedDataset>
 								</viz:dataset>
 								<viz:feeds>
-									<viz.feeds:FeedItem id='valueAxisFeed2' uid="valueAxis" type="Measure" values="Humidity"/>
-									<viz.feeds:FeedItem id='categoryAxisFeed2' uid="categoryAxis" type="Dimension" values="Time"/>
+									<viz.feeds:FeedItem id='valueAxisFeed' uid="valueAxis" type="Measure" values="Max Vibration Speed"/>
+								    <viz.feeds:FeedItem id='valueAxisFeed1' uid="valueAxis" type="Measure" values="Temperature"/>
+								    <viz.feeds:FeedItem id='valueAxisFeed2' uid="valueAxis" type="Measure" values="Humidity"/>
+									<viz.feeds:FeedItem id='categoryAxisFeed' uid="categoryAxis" type="Dimension" values="Time"/>
 								</viz:feeds>
 							</viz:VizFrame>
+							<!--<viz:VizFrame id="idVizFrame1" vizProperties="{ title: {text : 'Temperature vs Time', visible : true}}" -->
+							<!--	uiConfig="{applicationSet:'fiori'}" height='500px' width="100%" vizType='line'>-->
+							<!--	<viz:dataset>-->
+							<!--		<viz.data:FlattenedDataset data="{VibrationSensorModel>/SelectedVibrationSensor/Data}">-->
+							<!--			<viz.data:dimensions>-->
+							<!--				<viz.data:DimensionDefinition name="Time" value="{path:'VibrationSensorModel>timestamp', type:'sap.ui.model.odata.type.DateTimeOffset'}"/>-->
+							<!--			</viz.data:dimensions>-->
+							<!--			<viz.data:measures>-->
+							<!--				<viz.data:MeasureDefinition name="Temperature" value="{VibrationSensorModel>measure/temperature}"/>-->
+							<!--			</viz.data:measures>-->
+							<!--		</viz.data:FlattenedDataset>-->
+							<!--	</viz:dataset>-->
+							<!--	<viz:feeds>-->
+							<!--		<viz.feeds:FeedItem id='valueAxisFeed1' uid="valueAxis" type="Measure" values="Temperature"/>-->
+							<!--		<viz.feeds:FeedItem id='categoryAxisFeed1' uid="categoryAxis" type="Dimension" values="Time"/>-->
+							<!--	</viz:feeds>-->
+							<!--</viz:VizFrame>-->
+							<!--<viz:VizFrame id="idVizFrame2" vizProperties="{ title: {text : 'Humidity vs Time', visible : true}}" -->
+							<!--	uiConfig="{applicationSet:'fiori'}" height='500px' width="100%" vizType='line'>-->
+							<!--	<viz:dataset>-->
+							<!--		<viz.data:FlattenedDataset data="{VibrationSensorModel>/SelectedVibrationSensor/Data}">-->
+							<!--			<viz.data:dimensions>-->
+							<!--				<viz.data:DimensionDefinition name="Time" value="{path:'VibrationSensorModel>timestamp', type:'sap.ui.model.odata.type.DateTimeOffset'}"/>-->
+							<!--			</viz.data:dimensions>-->
+							<!--			<viz.data:measures>-->
+							<!--				<viz.data:MeasureDefinition name="Humidity" value="{VibrationSensorModel>measure/humidity}"/>-->
+							<!--			</viz.data:measures>-->
+							<!--		</viz.data:FlattenedDataset>-->
+							<!--	</viz:dataset>-->
+							<!--	<viz:feeds>-->
+							<!--		<viz.feeds:FeedItem id='valueAxisFeed2' uid="valueAxis" type="Measure" values="Humidity"/>-->
+							<!--		<viz.feeds:FeedItem id='categoryAxisFeed2' uid="categoryAxis" type="Dimension" values="Time"/>-->
+							<!--	</viz:feeds>-->
+							<!--</viz:VizFrame>-->
 						</m:VBox>
 					</blocks>
 				</ObjectPageSubSection>
