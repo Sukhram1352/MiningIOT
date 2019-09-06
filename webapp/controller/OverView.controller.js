@@ -388,7 +388,7 @@ sap.ui.define([
 		},
 		
 		formatBulletMicroChart: function(iVibrationSpeed) {
-			if(iVibrationSpeed >= 2 && iVibrationSpeed < 5) {
+			if(iVibrationSpeed >= 2 && iVibrationSpeed < 7) {
 				return "Good";
 			} else {
 				return "Critical";
