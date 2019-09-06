@@ -113,8 +113,8 @@
 									<micro:thresholds>
 										<micro:BulletMicroChartData value="0" color="Critical"/>
 										<micro:BulletMicroChartData value="2" color="Good"/>
-										<micro:BulletMicroChartData value="5" color="Good"/>
-										<micro:BulletMicroChartData value="7" color="Critical"/>
+										<micro:BulletMicroChartData value="7" color="Good"/>
+										<micro:BulletMicroChartData value="12" color="Critical"/>
 									</micro:thresholds>
 								</micro:BulletMicroChart>
 							</cells>
