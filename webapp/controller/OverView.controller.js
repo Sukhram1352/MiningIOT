@@ -72,6 +72,24 @@ sap.ui.define([
 				"Make": "TSR-123",
 				"Model": "2005",
 				"Data": []
+			},{
+				"SensorId": "9916fd43-b079-4a81-83d5-c7276cf597c4",
+				"MachineId": "9a86ec06-3764-44b4-bfcc-78a45ee317da",
+				"EquipmentNumber": "",
+				"SensorName": "",
+				"MachineName": "",
+				"Location": "Deep Creek Reserve, Torquay VIC 3228, Australia",
+				"VibrationSpeed": "",
+				"TimeStamp": "",
+				"Threshold": 0.55,
+				"MaxSpeed": 2,
+				"Delta": 10,
+				"Status": "Active",
+				"OrderId": "",
+				"InstallationTime": new Date(1543970000000),
+				"Make": "ISD-968",
+				"Model": "2009",
+				"Data": []
 			}];
 			
 			oVibrationSensorModel.setProperty("/Sensor", jQuery.extend(true, [], aSensors));
@@ -107,11 +125,18 @@ sap.ui.define([
 				                             position: new google.maps.LatLng(-38.3122321,144.3629695)
 			});
 			
-			var oInfowindow2 = new google.maps.InfoWindow({content:'<strong></strong><br>MySensorMQ<br>'});
-	        oInfowindow2.open(oMap, oMarker2);
+			var oMarker3 = new google.maps.Marker({map: oMap,
+				                             position: new google.maps.LatLng(-38.3192143,144.3210314)
+			});
 			
 			var oInfowindow1 = new google.maps.InfoWindow({content:'<strong></strong><br>MySensor<br>'});
 	        oInfowindow1.open(oMap, oMarker1);
+	        
+	        var oInfowindow2 = new google.maps.InfoWindow({content:'<strong></strong><br>MySensorMQ<br>'});
+	        oInfowindow2.open(oMap, oMarker2);
+	        
+	        var oInfowindow3 = new google.maps.InfoWindow({content:'<strong></strong><br>VibrationSensor<br>'});
+	        oInfowindow3.open(oMap, oMarker3);
 		},
 		
 		getSCPData: function() {
