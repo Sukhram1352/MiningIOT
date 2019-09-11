@@ -243,16 +243,25 @@ sap.ui.define([
 				});
 			}
 			
-			oVibrationSensorModel.setProperty("/UIFixedSensorData", jQuery.extend(true, [], aUIFixedSensorData));
+			for (var intR = 0; intR < aUIFixedSensorData.length; intR++) {
+				if(aUIFixedSensorData[intJ].VibrationSpeed !== "" && 
+						(aUIFixedSensorData[intR].VibrationSpeed < 2 || aUIFixedSensorData[intR].VibrationSpeed > 7)) {
+					aUIFixedSensorData[intR].Status = "BreakDown";
+				} else {
+					aUIFixedSensorData[intR].Status = "Active";
+				}
+			}
 			
 			for (var intR = 0; intR < aUIFixedSensorData.length; intR++) {
 				if(aUIFixedSensorData[intR].OrderId === "" && 
 						(aUIFixedSensorData[intJ].VibrationSpeed !== "" && 
-						(aUIFixedSensorData[intR].VibrationSpeed < 1 || aUIFixedSensorData[intR].VibrationSpeed > 15))) {
+						(aUIFixedSensorData[intR].VibrationSpeed < 2 || aUIFixedSensorData[intR].VibrationSpeed > 7))) {
 							
 					this.maintainanceOrWorkOrder(aUIFixedSensorData[intR].EquipmentNumber);
 				}
 			}
+			
+		    oVibrationSensorModel.setProperty("/UIFixedSensorData", jQuery.extend(true, [], aUIFixedSensorData));
 			
 			this.updateModelData();
 		},
@@ -325,7 +334,15 @@ sap.ui.define([
 				}
 			}
 			
-			oVibrationSensorModel.setProperty("/UIFixedSensorData", jQuery.extend(true, [], aUIFixedSensorData));
+			for (var intJ = 0; intJ < aUIFixedSensorData.length; intJ++) {
+				if(aUIFixedSensorData[intJ].VibrationSpeed !== "" && 
+						(aUIFixedSensorData[intJ].VibrationSpeed < 2 || aUIFixedSensorData[intJ].VibrationSpeed > 7)) {
+				    aUIFixedSensorData[intJ].Status = "BreakDown";
+				} else {
+					aUIFixedSensorData[intJ].Status = "Active";
+				}
+				
+			}
 			
 			if(!jQuery.isEmptyObject(oVibrationSensorModel.getProperty("/SelectedVibrationSensor"))) {
 				var oSensorId = oVibrationSensorModel.getProperty("/SelectedVibrationSensor/SensorId");
@@ -335,14 +352,17 @@ sap.ui.define([
 				oVibrationSensorModel.setProperty("/SelectedVibrationSensor", oUpdatedData);
 			}
 			
+			
 			for (var intJ = 0; intJ < aUIFixedSensorData.length; intJ++) {
 				if(aUIFixedSensorData[intJ].OrderId === "" && 
 						(aUIFixedSensorData[intJ].VibrationSpeed !== "" && 
 						(aUIFixedSensorData[intJ].VibrationSpeed < 2 || aUIFixedSensorData[intJ].VibrationSpeed > 7))) {
-							
 					this.maintainanceOrWorkOrder(aUIFixedSensorData[intJ].EquipmentNumber);
 				}
+				
 			}
+			
+			oVibrationSensorModel.setProperty("/UIFixedSensorData", jQuery.extend(true, [], aUIFixedSensorData));
 		},
 		
 		maintainanceOrWorkOrder: function(sEquipmentNumber) {
