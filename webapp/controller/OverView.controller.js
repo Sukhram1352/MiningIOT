@@ -349,16 +349,23 @@ sap.ui.define([
 			this.getOwnerComponent().getModel().read(this.getOwnerComponent().getModel().createKey("/Maintenance_PlanSet", 
 				{Equnr: sEquipmentNumber}), 
 				{success: function(oData) {
+					var sMachineName = this.getMachineName(oData.Equnr);
+					
                 	if(oData.Nplda && oData.Nplda.getTime() > 0) {
-                		MessageBox.show("Information", {
-							icon: MessageBox.Icon.INFORMATION,
-							title: "Information",
-							details: "Maintenance order " + oData.Warpl + " for machine " + this.getMachineName(oData.Equnr) + " is scheduled on " + oData.Nplda,
-							actions: [MessageBox.Action.OK]
-						});
+                		if(!sap.ui.getCore().byId("id" + sMachineName + "MaintainanceMessageBox")) {
+                			MessageBox.show("Information", {
+	                			id: "id" + sMachineName + "MaintainanceMessageBox",
+								icon: MessageBox.Icon.INFORMATION,
+								title: "Information",
+								details: "Maintenance order " + oData.Warpl + " for machine " + sMachineName + " is scheduled on " + oData.Nplda,
+								actions: [MessageBox.Action.OK]
+							});
+                		} else {
+                			//Do nothing
+                		}
                 	} else {
                 		this.getOwnerComponent().getModel().create("/EquipNotifSet",
-							{Equnr: oData.Equnr, Eqktx: this.getMachineName(oData.Equnr)}, 
+							{Equnr: oData.Equnr, Eqktx: sMachineName}, 
 							{success: function(oResultData) {
 		                    	this.updateWorkOrderData(oResultData);
 			            	}.bind(this)
