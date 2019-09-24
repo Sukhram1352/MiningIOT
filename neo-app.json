@@ -53,6 +53,15 @@
         "name": "HCP"
       },
       "description": "HCP API"
+    },
+    {
+      "path": "/mining",
+      "target": {
+        "type": "destination",
+        "name": "SapIoT",
+        "entryPath": "/"
+      },
+      "description": "HCP API"
     }
   ],
   "sendWelcomeFileRedirect": true
