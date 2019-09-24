@@ -11,17 +11,17 @@
 							<Input id="idSearchField" placeholder=""></Input>
 						</fb:control>
 					</fb:FilterItem>
-					<fb:FilterItem label="Sensor" name="Sensor">
-						<fb:control>
-							<ComboBox
-								items="{
-									path: 'VibrationSensorModel>/Sensor',
-									sorter: { path: 'Sensor' }
-								}" id="idSensorField">
-								<core:Item key="{VibrationSensorModel>Sensor}" text="{VibrationSensorModel>Sensor}" />
-							</ComboBox>
-						</fb:control>
-					</fb:FilterItem>
+					<!--<fb:FilterItem label="Sensor" name="Sensor">-->
+					<!--	<fb:control>-->
+					<!--		<ComboBox-->
+					<!--			items="{-->
+					<!--				path: 'VibrationSensorModel>/Sensor',-->
+					<!--				sorter: { path: 'Sensor' }-->
+					<!--			}" id="idSensorField">-->
+					<!--			<core:Item key="{VibrationSensorModel>Sensor}" text="{VibrationSensorModel>Sensor}" />-->
+					<!--		</ComboBox>-->
+					<!--	</fb:control>-->
+					<!--</fb:FilterItem>-->
 					<fb:FilterItem label="Machine" name="Machine">
 						<fb:control>
 							<ComboBox
@@ -59,36 +59,36 @@
 						enableBusyIndicator="true"
 						class="VibrationSensorTableColumn">
 					<columns>
-						<Column width="12%">
-							<Text text="Sensor"></Text>
-						</Column>
-						<Column width="13%">
+						<!--<Column width="12%">-->
+						<!--	<Text text="Sensor"></Text>-->
+						<!--</Column>-->
+						<Column width="15%">
 							<Text text="Machine"></Text>
 						</Column>
-						<Column width="15%">
+						<Column width="25%">
 							<Text text="Location"></Text>
 						</Column>
 						<Column width="10%" hAlign="Center">
 							<Text text="Vibration Speed (in Hertz)"></Text>
 						</Column>
-						<Column width="20%">
+						<Column width="15%">
 							<Text text="Date"></Text>
 						</Column>
-						<Column width="10%">
+						<Column width="15%">
 							<Text text="Status"></Text>
 						</Column>
-						<Column>
+						<Column width="15%">
 							<Text text=""></Text>
 						</Column>
 					</columns>
 					<items>
 						<ColumnListItem type="Navigation" press="onVibrationDetailPress">
 							<cells>
-								<VBox>
-								<ObjectIdentifier
-									title="{VibrationSensorModel>SensorName}"/>
+								<!--<VBox>-->
+								<!--<ObjectIdentifier-->
+								<!--	title="{VibrationSensorModel>SensorName}"/>-->
 									<!--<Text text="{VibrationSensorModel>SensorId}"></Text>-->
-								</VBox>
+								<!--</VBox>-->
 								<VBox>
 								<ObjectIdentifier
 									title="{VibrationSensorModel>MachineName}"/>
@@ -99,10 +99,17 @@
 								<Text text="{path: 'VibrationSensorModel>TimeStamp', type: 'sap.ui.model.type.DateTime', formatOptions: { style: 'medium' }}"></Text>
 								<!--<Text text="{VibrationSensorModel>Threshold}"></Text>-->
 								<VBox>
-									<ObjectStatus text="Healthy" state="Success" visible="{= ${VibrationSensorModel>Status} === 'Active'}"/>
-									<ObjectStatus text="Critical" inverted="true" state="Error" visible="{= ${VibrationSensorModel>Status} === 'BreakDown'}"/>
-									<Link text="{VibrationSensorModel>OrderId}" visible="{= ${VibrationSensorModel>Status} === 'BreakDown'}"
+									<ObjectStatus text="Healthy" state="Success" visible="{= ${VibrationSensorModel>Status} === 'Healthy'}"/>
+									<ObjectStatus text="Critical" inverted="true" state="Error" visible="{= ${VibrationSensorModel>Status} === 'Critical'}"/>
+									<HBox visible="{= ${VibrationSensorModel>Status} === 'Critical' &amp;&amp; ${VibrationSensorModel>IsMaintainanceOrder} === 'true'}">
+										<Text text="Maintainance Plan : "></Text>
+										<Text text="{VibrationSensorModel>OrderId}"></Text>
+									</HBox>
+									<HBox visible="{= ${VibrationSensorModel>Status} === 'Critical' &amp;&amp; ${VibrationSensorModel>IsMaintainanceOrder} === 'false'}">
+										<Text text="Notification : "></Text>
+										<Link text="{VibrationSensorModel>OrderId}"
 										target="_blank" href="{parts: [{path: 'VibrationSensorModel>OrderId'}], formatter: '.formatNotificationLink'}"></Link>
+									</HBox>
 								</VBox>
 								<micro:BulletMicroChart size="M" scale="Hertz" press="press">
 									<micro:actual>

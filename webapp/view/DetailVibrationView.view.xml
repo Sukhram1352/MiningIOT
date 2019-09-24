@@ -36,12 +36,18 @@
 			</layout:VerticalLayout>
 			<layout:VerticalLayout>
 				<m:ObjectStatus text="Healthy" state="Success" class="vibrationSensorActiveStatus"
-					visible="{= ${VibrationSensorModel>/SelectedVibrationSensor/Status} === 'Active'}"/>
+					visible="{= ${VibrationSensorModel>/SelectedVibrationSensor/Status} === 'Healthy'}"/>
 				<m:ObjectStatus text="Critical" state="Error" class="vibrationSensorBreakDownStatus"
-					visible="{= ${VibrationSensorModel>/SelectedVibrationSensor/Status} === 'BreakDown'}"/>
-				<m:Link text="{VibrationSensorModel>/SelectedVibrationSensor/OrderId}"
-					visible="{= ${VibrationSensorModel>/SelectedVibrationSensor/Status} === 'BreakDown'}" target="_blank"
-					href="{parts: [{path: 'VibrationSensorModel>/SelectedVibrationSensor/OrderId'}], formatter: '.formatNotificationLink'}"></m:Link>
+					visible="{= ${VibrationSensorModel>/SelectedVibrationSensor/Status} === 'Critical'}"/>
+				<m:HBox visible="{= ${VibrationSensorModel>/SelectedVibrationSensor/Status} === 'Critical' &amp;&amp; ${VibrationSensorModel>/SelectedVibrationSensor/IsMaintainanceOrder} === 'true'}">
+					<m:Text text="Maintainance Plan : "></m:Text>
+					<m:Text text="{VibrationSensorModel>/SelectedVibrationSensor/OrderId}"></m:Text>
+				</m:HBox>
+				<m:HBox visible="{= ${VibrationSensorModel>/SelectedVibrationSensor/Status} === 'Critical' &amp;&amp; ${VibrationSensorModel>/SelectedVibrationSensor/IsMaintainanceOrder} === 'false'}">
+					<m:Text text="Notification : "></m:Text>
+					<m:Link text="{VibrationSensorModel>/SelectedVibrationSensor/OrderId}" target="_blank"
+						href="{parts: [{path: 'VibrationSensorModel>/SelectedVibrationSensor/OrderId'}], formatter: '.formatNotificationLink'}"></m:Link>
+				</m:HBox>
 			</layout:VerticalLayout>
 		</headerContent>
 		<sections>

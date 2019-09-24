@@ -2,8 +2,9 @@ sap.ui.define([
 	"miningIOT/MiningIOT/controller/BaseController",
 	"sap/ui/model/Filter",
 	"sap/ui/model/FilterOperator",
-	"sap/m/MessageBox"
-], function (BaseController, Filter, FilterOperator, MessageBox) {
+	"sap/m/MessageBox",
+	"sap/m/MessageToast"
+], function (BaseController, Filter, FilterOperator, MessageBox, MessageToast) {
 	"use strict";
 
 	return BaseController.extend("miningIOT.MiningIOT.controller.OverView", {
@@ -23,18 +24,20 @@ sap.ui.define([
 			}];
 			
 			var aMachines = [{
-				"Machine": "DeviceIOT"
+				"Machine": "Air Compressor"
 			},{
-				"Machine": "DeviceIOTMQT"
+				"Machine": "Generator-CHP"
+			},{
+				"Machine": "Water Pumps"
 			}];
 			
 			var aStatus = [{
-				"Status": "Active"
+				"Status": "Healthy"
 			},{
-				"Status": "BreakDown"
+				"Status": "Critical"
 			}];
 			
-			var aSearchColumns = ["SensorName", "MachineName", "Location", "Status", "OrderId"]; 
+			var aSearchColumns = ["MachineName", "Location", "Status", "OrderId"]; 
 			
 			var aUIFixedSensorData = [{
 				"SensorId": "7512a84c-8c46-4c8d-9ea7-5886b2e8cdf4",
@@ -48,11 +51,12 @@ sap.ui.define([
 				"Threshold": 0.55,
 				"MaxSpeed": 2,
 				"Delta": 10,
-				"Status": "Active",
+				"Status": "Healthy",
+				"IsMaintainanceOrder": "",
 				"OrderId": "",
 				"InstallationTime": new Date(1523970000000),
 				"Make": "HJR-493",
-				"Model": "2007",
+				"Model": "2007",           
 				"Data": []
 			},{
 				"SensorId": "7d23b5db-2cd0-4c1e-b6df-633fdc5bd420",
@@ -66,7 +70,8 @@ sap.ui.define([
 				"Threshold": 0.55,
 				"MaxSpeed": 2,
 				"Delta": 10,
-				"Status": "Active",
+				"Status": "Healthy",
+				"IsMaintainanceOrder": "",
 				"OrderId": "",
 				"InstallationTime": new Date(1533970000000),
 				"Make": "TSR-123",
@@ -78,13 +83,14 @@ sap.ui.define([
 				"EquipmentNumber": "",
 				"SensorName": "",
 				"MachineName": "",
-				"Location": "Deep Creek Reserve, Torquay VIC 3228, Australia",
+				"Location": "Torquay VIC 3228, Australia",
 				"VibrationSpeed": "",
 				"TimeStamp": "",
 				"Threshold": 0.55,
 				"MaxSpeed": 2,
 				"Delta": 10,
-				"Status": "Active",
+				"Status": "Healthy",
+				"IsMaintainanceOrder": "",
 				"OrderId": "",
 				"InstallationTime": new Date(1543970000000),
 				"Make": "ISD-968",
@@ -129,13 +135,13 @@ sap.ui.define([
 				                             position: new google.maps.LatLng(-38.3192143,144.3210314)
 			});
 			
-			var oInfowindow1 = new google.maps.InfoWindow({content:'<strong></strong><br>MySensor<br>'});
+			var oInfowindow1 = new google.maps.InfoWindow({content:'<strong></strong><br>Generator-CHP<br>'});
 	        oInfowindow1.open(oMap, oMarker1);
 	        
-	        var oInfowindow2 = new google.maps.InfoWindow({content:'<strong></strong><br>MySensorMQ<br>'});
+	        var oInfowindow2 = new google.maps.InfoWindow({content:'<strong></strong><br>Air Compressor<br>'});
 	        oInfowindow2.open(oMap, oMarker2);
 	        
-	        var oInfowindow3 = new google.maps.InfoWindow({content:'<strong></strong><br>VibrationSensor<br>'});
+	        var oInfowindow3 = new google.maps.InfoWindow({content:'<strong></strong><br>Water Pumps<br>'});
 	        oInfowindow3.open(oMap, oMarker3);
 		},
 		
@@ -236,7 +242,8 @@ sap.ui.define([
 					if(oNotificationData.Eqktx === aUIFixedSensorData[intS].MachineName) {
 						if(oNotificationData.Qmnum !== "") {
 							aUIFixedSensorData[intS].OrderId = oNotificationData.Qmnum;
-							aUIFixedSensorData[intS].Status = "BreakDown";
+							aUIFixedSensorData[intS].Status = "Critical";
+							aUIFixedSensorData[intS].IsMaintainanceOrder = "false";
 						}
 						aUIFixedSensorData[intS].EquipmentNumber = oNotificationData.Equnr;
 					}
@@ -244,13 +251,15 @@ sap.ui.define([
 			}
 			
 			for (var intR = 0; intR < aUIFixedSensorData.length; intR++) {
-				if(aUIFixedSensorData[intJ].VibrationSpeed !== "" && 
-						(aUIFixedSensorData[intR].VibrationSpeed < 2 || aUIFixedSensorData[intR].VibrationSpeed > 7)) {
-					aUIFixedSensorData[intR].Status = "BreakDown";
-				} else {
-					aUIFixedSensorData[intR].Status = "Active";
-				}
-			}
+                if(aUIFixedSensorData[intJ].VibrationSpeed !== "" && 
+                                                (aUIFixedSensorData[intR].VibrationSpeed < 2 || aUIFixedSensorData[intR].VibrationSpeed > 7)) {
+                                aUIFixedSensorData[intR].Status = "Critical";
+                } else {
+                                aUIFixedSensorData[intR].Status = "Healthy";
+                }
+		    }
+			
+			oVibrationSensorModel.setProperty("/UIFixedSensorData", jQuery.extend(true, [], aUIFixedSensorData));
 			
 			for (var intR = 0; intR < aUIFixedSensorData.length; intR++) {
 				if(aUIFixedSensorData[intR].OrderId === "" && 
@@ -319,10 +328,11 @@ sap.ui.define([
 				aNotificationData.filter(function(oNotificationData) {
 					if(oNotificationData.Eqktx === aUIFixedSensorData[intI].MachineName) {
 						aUIFixedSensorData[intI].OrderId = oNotificationData.Qmnum;
+						aUIFixedSensorData[intI].IsMaintainanceOrder = "false";
 					}
 				});
 				
-				aUIFixedSensorData[intI].Status = (aUIFixedSensorData[intI].OrderId !== "") ? "BreakDown" : "Active";
+				aUIFixedSensorData[intI].Status = (aUIFixedSensorData[intI].OrderId !== "") ? "Critical" : "Healthy";
 				aUIFixedSensorData[intI].Data = aParticularDeviceData;
 				
 				if(aParticularDeviceData.length > 0) {
@@ -335,14 +345,15 @@ sap.ui.define([
 			}
 			
 			for (var intJ = 0; intJ < aUIFixedSensorData.length; intJ++) {
-				if(aUIFixedSensorData[intJ].VibrationSpeed !== "" && 
-						(aUIFixedSensorData[intJ].VibrationSpeed < 2 || aUIFixedSensorData[intJ].VibrationSpeed > 7)) {
-				    aUIFixedSensorData[intJ].Status = "BreakDown";
-				} else {
-					aUIFixedSensorData[intJ].Status = "Active";
-				}
-				
-			}
+                if(aUIFixedSensorData[intJ].VibrationSpeed !== "" && 
+                        (aUIFixedSensorData[intJ].VibrationSpeed < 2 || aUIFixedSensorData[intJ].VibrationSpeed > 7)) {
+                    aUIFixedSensorData[intJ].Status = "Critical";
+                } else {
+                    aUIFixedSensorData[intJ].Status = "Healthy";
+                }
+            }
+			
+			oVibrationSensorModel.setProperty("/UIFixedSensorData", jQuery.extend(true, [], aUIFixedSensorData));
 			
 			if(!jQuery.isEmptyObject(oVibrationSensorModel.getProperty("/SelectedVibrationSensor"))) {
 				var oSensorId = oVibrationSensorModel.getProperty("/SelectedVibrationSensor/SensorId");
@@ -352,11 +363,14 @@ sap.ui.define([
 				oVibrationSensorModel.setProperty("/SelectedVibrationSensor", oUpdatedData);
 			}
 			
+			// oVibrationSensorModel.setProperty("/UIFixedSensorData", jQuery.extend(true, [], aUIFixedSensorData));
 			
 			for (var intJ = 0; intJ < aUIFixedSensorData.length; intJ++) {
 				if(aUIFixedSensorData[intJ].OrderId === "" && 
 						(aUIFixedSensorData[intJ].VibrationSpeed !== "" && 
 						(aUIFixedSensorData[intJ].VibrationSpeed < 2 || aUIFixedSensorData[intJ].VibrationSpeed > 7))) {
+							
+					
 					this.maintainanceOrWorkOrder(aUIFixedSensorData[intJ].EquipmentNumber);
 				}
 				
@@ -372,17 +386,20 @@ sap.ui.define([
 					var sMachineName = this.getMachineName(oData.Equnr);
 					
                 	if(oData.Nplda && oData.Nplda.getTime() > 0) {
-                		if(!sap.ui.getCore().byId("id" + sMachineName + "MaintainanceMessageBox")) {
-                			MessageBox.show("Information", {
-	                			id: "id" + sMachineName + "MaintainanceMessageBox",
-								icon: MessageBox.Icon.INFORMATION,
-								title: "Information",
-								details: "Maintenance order " + oData.Warpl + " for machine " + sMachineName + " is scheduled on " + oData.Nplda,
-								actions: [MessageBox.Action.OK]
-							});
-                		} else {
-                			//Do nothing
-                		}
+       //         		if(!sap.ui.getCore().byId("id" + sMachineName + "MaintainanceMessageBox")) {
+       //         			MessageBox.show("Information", {
+	      //          			id: "id" + sMachineName + "MaintainanceMessageBox",
+							// 	icon: MessageBox.Icon.INFORMATION,
+							// 	title: "Information",
+							// 	details: "Maintenance order " + oData.Warpl + " for machine " + sMachineName + " is scheduled on " + oData.Nplda,
+							// 	actions: [MessageBox.Action.OK]
+							// });
+       //         		} else {
+       //         			//Do nothing
+       //         		}
+                		
+                		// MessageToast.show("Maintenance order " + oData.Warpl + " for machine " + sMachineName + " is scheduled on " + oData.Nplda, {width: "60rem"});
+                		this.updateMaintainanceOrder(oData);	
                 	} else {
                 		this.getOwnerComponent().getModel().create("/EquipNotifSet",
 							{Equnr: oData.Equnr, Eqktx: sMachineName}, 
@@ -393,6 +410,26 @@ sap.ui.define([
                 	}
             	}.bind(this)
 			});
+		},
+		
+		updateMaintainanceOrder: function(oData) {
+			var oVibrationSensorModel = this.getOwnerComponent().getModel("VibrationSensorModel");
+			var aUIFixedSensorData = jQuery.extend(true, [], oVibrationSensorModel.getProperty("/UIFixedSensorData"));
+			var iMatchIndex = this.findWithAttr(aUIFixedSensorData, "EquipmentNumber", oData.Equnr);
+			
+			aUIFixedSensorData[iMatchIndex].Status = "Critical";
+		    aUIFixedSensorData[iMatchIndex].OrderId = oData.Warpl;
+		    aUIFixedSensorData[iMatchIndex].IsMaintainanceOrder = "true";
+		    
+		    oVibrationSensorModel.setProperty("/UIFixedSensorData", jQuery.extend(true, [], aUIFixedSensorData));
+		    
+		    if(!jQuery.isEmptyObject(oVibrationSensorModel.getProperty("/SelectedVibrationSensor"))) {
+				var oSensorId = oVibrationSensorModel.getProperty("/SelectedVibrationSensor/SensorId");
+				var iSensorIndex = this.findWithAttr(aUIFixedSensorData, "SensorId", oSensorId);
+				var oUpdatedData = jQuery.extend(true, {}, aUIFixedSensorData[iSensorIndex]);
+				
+				oVibrationSensorModel.setProperty("/SelectedVibrationSensor", oUpdatedData);
+			}
 		},
 		
 		getMachineName: function(sEquipmentNumber) {
@@ -408,8 +445,9 @@ sap.ui.define([
 			var aUIFixedSensorData = jQuery.extend(true, [], oVibrationSensorModel.getProperty("/UIFixedSensorData"));
 			var iMatchIndex = this.findWithAttr(aUIFixedSensorData, "EquipmentNumber", oData.Equnr);
 			
-			aUIFixedSensorData[iMatchIndex].Status = "BreakDown";
+			aUIFixedSensorData[iMatchIndex].Status = "Critical";
 		    aUIFixedSensorData[iMatchIndex].OrderId = oData.Qmnum;
+		    aUIFixedSensorData[iMatchIndex].IsMaintainanceOrder = "false";
 		    
 		    oVibrationSensorModel.setProperty("/UIFixedSensorData", jQuery.extend(true, [], aUIFixedSensorData));
 		    
@@ -420,6 +458,8 @@ sap.ui.define([
 				
 				oVibrationSensorModel.setProperty("/SelectedVibrationSensor", oUpdatedData);
 			}
+			
+			// MessageToast.show("Notification " + oData.Qmnum + " is created for Device " + aUIFixedSensorData[iMatchIndex].MachineName, {width: "30rem"});
 		},
 		
 		findWithAttr: function(aColumnList, sAttr, sValue) {
@@ -466,7 +506,7 @@ sap.ui.define([
         onPressSearch: function(oEvent) {
         	var sSearchQuery = this.getView().byId("idSearchField").getValue();
         	var aTableColumns = this.getOwnerComponent().getModel("VibrationSensorModel").getProperty("/SearchColumn");
-        	var sSensor = this.getView().byId("idSensorField").getValue();
+        	// var sSensor = this.getView().byId("idSensorField").getValue();
         	var sMachine = this.getView().byId("idMachineField").getValue(); 
         	var sStatus = this.getView().byId("idStatusField").getValue();
         	var aFilters = [];
@@ -479,9 +519,9 @@ sap.ui.define([
         		}
     		 }
         	
-        	if(sSensor) {
-        		aFilters.push(new Filter("SensorName", FilterOperator.EQ, sSensor));
-        	}
+        	// if(sSensor) {
+        	// 	aFilters.push(new Filter("SensorName", FilterOperator.EQ, sSensor));
+        	// }
         	
         	if(sMachine) {
         		aFilters.push(new Filter("MachineName", FilterOperator.EQ, sMachine));
