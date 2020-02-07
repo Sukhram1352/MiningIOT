@@ -40,8 +40,8 @@ sap.ui.define([
 			var aSearchColumns = ["MachineName", "Location", "Status", "OrderId"]; 
 			
 			var aUIFixedSensorData = [{
-				"SensorId": "7512a84c-8c46-4c8d-9ea7-5886b2e8cdf4",
-				"MachineId": "af6e1ca8-6b35-4398-8abb-fcf0b4e84613",
+				"SensorId": "cec9c12e-76de-4abd-9120-df4dccc8e2f0",
+				"MachineId": "3419ee60-8cf9-4016-a50b-22874f88790f",
 				"EquipmentNumber": "",
 				"SensorName": "",
 				"MachineName": "",
@@ -59,8 +59,8 @@ sap.ui.define([
 				"Model": "2007",           
 				"Data": []
 			},{
-				"SensorId": "7d23b5db-2cd0-4c1e-b6df-633fdc5bd420",
-				"MachineId": "3dbdb0d8-3b8a-482b-b299-2f18347a8d5d",
+				"SensorId": "dc3ebd1e-c9ae-4b7c-8a5e-224fa9aab751",
+				"MachineId": "6a9bcc0f-fb60-4ed4-a4ae-6341e1b4c5d7",
 				"EquipmentNumber": "",
 				"SensorName": "",
 				"MachineName": "",
@@ -78,8 +78,8 @@ sap.ui.define([
 				"Model": "2005",
 				"Data": []
 			},{
-				"SensorId": "9916fd43-b079-4a81-83d5-c7276cf597c4",
-				"MachineId": "9a86ec06-3764-44b4-bfcc-78a45ee317da",
+				"SensorId": "4667a043-33eb-4a02-8cb1-5e9d93f6c758",
+				"MachineId": "775f664b-03ec-46ed-8fd0-04f7c2535fba",
 				"EquipmentNumber": "",
 				"SensorName": "",
 				"MachineName": "",
@@ -141,7 +141,7 @@ sap.ui.define([
 	        var oInfowindow2 = new google.maps.InfoWindow({content:'<strong></strong><br>Air Compressor<br>'});
 	        oInfowindow2.open(oMap, oMarker2);
 	        
-	        var oInfowindow3 = new google.maps.InfoWindow({content:'<strong></strong><br>Water Pumps<br>'});
+	        var oInfowindow3 = new google.maps.InfoWindow({content:"<strong></strong><br>Water Pumps<br>"});
 	        oInfowindow3.open(oMap, oMarker3);
 		},
 		
@@ -150,12 +150,12 @@ sap.ui.define([
                 type: "GET",
                 contentType: "application/json",
                 crossDomain: true,
-                url: "/mining/4ec5ecac-dc28-4411-83d5-7f3377a7790c/iot/cockpit/core/tenant/590260208/devices",
+                url: "/mining/f94c7dc7-3591-49de-92ae-fcdcb181eda3/iot/cockpit/core/tenant/2031498523/devices",
                 xhrFields: {
                     withCredentials: true
                 },
                 username: "root",
-                password: "wZDBqZjh6AL4GXB",
+                password: "h8UsFwQ8JAu46Ia",
                 dataType: "json",
                 async: false,
                 success: function (data, textStatus, jqXHR) {
@@ -165,13 +165,13 @@ sap.ui.define([
 		                type: "GET",
 		                contentType: "application/json",
 		                crossDomain: true,
-		                url:  "/mining/iot/processing/api/v1/tenant/590260208/measures/capabilities/9de0d630-5d08-46d6-b97c-29a558de820a?top=100&orderby=timestamp%20desc",
+		                url:  "/mining/iot/processing/api/v1/tenant/2031498523/measures/capabilities/982ec874-57ee-4e54-9804-ee75d865a1d9?top=200&orderby=timestamp%20desc",
 		                 //url: "https://ibso-iot-services-poc.leonardo-iot.cfapps.eu10.hana.ondemand.com/comsapleonardoiot.iotuithingmodelerodata/appiot-mds/Things('4F88162A2BC542E78EA7EE6695F59B9D')/ibso.iotservicespoc.mining.demo:VibrationType/VibrationThingDemo?timerange=3M",
 		                xhrFields: {
 		                    withCredentials: true
 		                },
 		                username: "root",
-		                password: "wZDBqZjh6AL4GXB",
+		                password: "h8UsFwQ8JAu46Ia",
 		                dataType: "json",
 		                async: false,
 		                success: function (data, textStatus, jqXHR) {
@@ -287,12 +287,12 @@ sap.ui.define([
                 type: "GET",
                 contentType: "application/json",
                 crossDomain: true,
-                url: "/mining/iot/processing/api/v1/tenant/590260208/measures/capabilities/9de0d630-5d08-46d6-b97c-29a558de820a?top=100&orderby=timestamp%20desc",
+                url: "/mining/iot/processing/api/v1/tenant/2031498523/measures/capabilities/982ec874-57ee-4e54-9804-ee75d865a1d9?top=100&orderby=timestamp%20desc",
                 xhrFields: {
                     withCredentials: true
                 },
                 username: "root",
-                password: "wZDBqZjh6AL4GXB",
+                password: "h8UsFwQ8JAu46Ia",
                 dataType: "json",
                 async: false,
                 success: function (data, textStatus, jqXHR) {
@@ -503,25 +503,23 @@ sap.ui.define([
 	        this.getRouter().navTo("DetailVibration",{});
         },
         
-        onPressSearch: function(oEvent) {
+        onFilterChange: function() {
         	var sSearchQuery = this.getView().byId("idSearchField").getValue();
         	var aTableColumns = this.getOwnerComponent().getModel("VibrationSensorModel").getProperty("/SearchColumn");
         	// var sSensor = this.getView().byId("idSensorField").getValue();
         	var sMachine = this.getView().byId("idMachineField").getValue(); 
         	var sStatus = this.getView().byId("idStatusField").getValue();
         	var aFilters = [];
+        	var aSearchFilter = [];
         	
         	this.getView().byId("idVibrationTableSensorTable").getBinding("items").filter();
         	
         	if(sSearchQuery) {
         		for(var intI = 0; intI < aTableColumns.length; intI++) {
-        			aFilters.push(new Filter(aTableColumns[intI], FilterOperator.Contains, sSearchQuery));
+        			aSearchFilter.push(new Filter(aTableColumns[intI], FilterOperator.Contains, sSearchQuery));
         		}
+        		aFilters.push(new Filter(aSearchFilter, false));
     		 }
-        	
-        	// if(sSensor) {
-        	// 	aFilters.push(new Filter("SensorName", FilterOperator.EQ, sSensor));
-        	// }
         	
         	if(sMachine) {
         		aFilters.push(new Filter("MachineName", FilterOperator.EQ, sMachine));
@@ -532,7 +530,7 @@ sap.ui.define([
         	}
         	
         	if(aFilters.length > 0) {
-        		this.getView().byId("idVibrationTableSensorTable").getBinding("items").filter(new Filter(aFilters, false)); 
+        		this.getView().byId("idVibrationTableSensorTable").getBinding("items").filter(new Filter(aFilters, true)); 
         	} else {
         		this.getView().byId("idVibrationTableSensorTable").getBinding("items").filter();
         	}
