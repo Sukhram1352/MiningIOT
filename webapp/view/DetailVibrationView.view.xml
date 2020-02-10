@@ -32,7 +32,7 @@
 			<layout:VerticalLayout>
 				<m:ObjectAttribute title="Variantion In Reading"
 					text="{parts: [{path: 'i18n>DELTA_VERIATION'}, {path: 'VibrationSensorModel>/SelectedVibrationSensor/Delta'}], formatter: 'jQuery.sap.formatMessage'}"></m:ObjectAttribute>
-				<m:ObjectAttribute title="Maximum Speed (in Hertz)" text="{VibrationSensorModel>/SelectedVibrationSensor/MaxSpeed}"></m:ObjectAttribute>
+				<m:ObjectAttribute title="Maximum Speed(Hertz)" text="{VibrationSensorModel>/SelectedVibrationSensor/MaxSpeed}"></m:ObjectAttribute>
 			</layout:VerticalLayout>
 			<layout:VerticalLayout>
 				<m:ObjectStatus text="Healthy" state="Success" class="vibrationSensorActiveStatus"

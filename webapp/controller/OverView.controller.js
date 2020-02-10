@@ -8,13 +8,15 @@ sap.ui.define([
 	"use strict";
 
 	return BaseController.extend("miningIOT.MiningIOT.controller.OverView", {
-
+		
 		/**
 		 * Called when a controller is instantiated and its View controls (if available) are already created.
 		 * Can be used to modify the View before it is displayed, to bind event handlers and do other one-time initialization.
 		 * @memberOf miningIOT.MiningIOT.view.OverView
 		 */
 		onInit: function () {
+			this._oGoogleMapMarkers = [];
+			
 			var oVibrationSensorModel = new sap.ui.model.json.JSONModel();
 			
 			var aSensors = [{
@@ -40,8 +42,8 @@ sap.ui.define([
 			var aSearchColumns = ["MachineName", "Location", "Status", "OrderId"]; 
 			
 			var aUIFixedSensorData = [{
-				"SensorId": "cec9c12e-76de-4abd-9120-df4dccc8e2f0",
-				"MachineId": "3419ee60-8cf9-4016-a50b-22874f88790f",
+				"SensorId": "772f3e44-0a8e-40df-9ad2-f4afd8152b7e", // Air Compressor Sensor
+				"MachineId": "e5f42250-2e70-4a9d-ba7a-f859924805f3", // Air Compressor Device
 				"EquipmentNumber": "",
 				"SensorName": "",
 				"MachineName": "",
@@ -59,8 +61,8 @@ sap.ui.define([
 				"Model": "2007",           
 				"Data": []
 			},{
-				"SensorId": "dc3ebd1e-c9ae-4b7c-8a5e-224fa9aab751",
-				"MachineId": "6a9bcc0f-fb60-4ed4-a4ae-6341e1b4c5d7",
+				"SensorId": "3a222766-f1f4-4be7-8861-058c2517cdb5", // Generator-CHP Sensor
+				"MachineId": "c80b893d-c4e8-4028-9776-7434e909737a", // Generator-CHP Device
 				"EquipmentNumber": "",
 				"SensorName": "",
 				"MachineName": "",
@@ -78,8 +80,8 @@ sap.ui.define([
 				"Model": "2005",
 				"Data": []
 			},{
-				"SensorId": "4667a043-33eb-4a02-8cb1-5e9d93f6c758",
-				"MachineId": "775f664b-03ec-46ed-8fd0-04f7c2535fba",
+				"SensorId": "9c42e58f-37ac-48f6-86b7-4ccf9f3443e3", // Water Pumps Sensor
+				"MachineId": "4678836e-0c6f-4998-8fc5-fb2791339d52", // Water Pumps Device
 				"EquipmentNumber": "",
 				"SensorName": "",
 				"MachineName": "",
@@ -118,31 +120,42 @@ sap.ui.define([
 		
 		onAfterRendering: function() {
 			var oMyOptions = {zoom:12,
-			                 center:new google.maps.LatLng(20,77),
+			                 center: new google.maps.LatLng(-38.3,144.3),
 			                 mapTypeId: google.maps.MapTypeId.ROADMAP
 			                 };
 			var oMap = new google.maps.Map(this.getView().byId("idGoogleMapTrial").getDomRef(), oMyOptions);
 			
 			var oMarker1 = new google.maps.Marker({map: oMap,
-											 position: new google.maps.LatLng(-38.3860094, 144.1810526)
+											 position: new google.maps.LatLng(-38.3860094, 144.1810526),
+											 title: "Generator-CHP",
+											 label: "Generator-CHP"
 			});
 			
 			var oMarker2 = new google.maps.Marker({map: oMap,
-				                             position: new google.maps.LatLng(-38.3122321,144.3629695)
+				                             position: new google.maps.LatLng(-38.3122321,144.3629695),
+				                             title: "Air Compressor",
+				                             label: "Air Compressor"
 			});
 			
 			var oMarker3 = new google.maps.Marker({map: oMap,
-				                             position: new google.maps.LatLng(-38.3192143,144.3210314)
+				                             position: new google.maps.LatLng(-38.3192143,144.3210314),
+				                             title: "Water Pumps",
+				                             label: "Water Pumps"
+				                             
 			});
 			
-			var oInfowindow1 = new google.maps.InfoWindow({content:'<strong></strong><br>Generator-CHP<br>'});
-	        oInfowindow1.open(oMap, oMarker1);
+			// var oInfowindow1 = new google.maps.InfoWindow({content:"<strong></strong><br>Generator-CHP<br>"});
+	  //      oInfowindow1.open(oMap, oMarker1);
 	        
-	        var oInfowindow2 = new google.maps.InfoWindow({content:'<strong></strong><br>Air Compressor<br>'});
-	        oInfowindow2.open(oMap, oMarker2);
+	  //      var oInfowindow2 = new google.maps.InfoWindow({content:"<strong></strong><br>Air Compressor<br>"});
+	  //      oInfowindow2.open(oMap, oMarker2);
 	        
-	        var oInfowindow3 = new google.maps.InfoWindow({content:"<strong></strong><br>Water Pumps<br>"});
-	        oInfowindow3.open(oMap, oMarker3);
+	  //      var oInfowindow3 = new google.maps.InfoWindow({content:"<strong></strong><br>Water Pumps<br>"});
+	  //      oInfowindow3.open(oMap, oMarker3);
+	        
+	        this._oGoogleMapMarkers.push(oMarker1);
+	        this._oGoogleMapMarkers.push(oMarker2);
+	        this._oGoogleMapMarkers.push(oMarker3);
 		},
 		
 		getSCPData: function() {
@@ -150,12 +163,12 @@ sap.ui.define([
                 type: "GET",
                 contentType: "application/json",
                 crossDomain: true,
-                url: "/mining/f94c7dc7-3591-49de-92ae-fcdcb181eda3/iot/cockpit/core/tenant/2031498523/devices",
+                url: "/mining/13f7eaa3-315c-4746-9a8f-397d5c284d73/iot/cockpit/core/tenant/1022420440/devices",
                 xhrFields: {
                     withCredentials: true
                 },
                 username: "root",
-                password: "h8UsFwQ8JAu46Ia",
+                password: "T8vKeD9HuoT6PGr",
                 dataType: "json",
                 async: false,
                 success: function (data, textStatus, jqXHR) {
@@ -165,13 +178,13 @@ sap.ui.define([
 		                type: "GET",
 		                contentType: "application/json",
 		                crossDomain: true,
-		                url:  "/mining/iot/processing/api/v1/tenant/2031498523/measures/capabilities/982ec874-57ee-4e54-9804-ee75d865a1d9?top=200&orderby=timestamp%20desc",
+		                url:  "/mining/iot/processing/api/v1/tenant/1022420440/measures/capabilities/71fb0199-3b98-49b5-9a4e-b4f76357122e?top=200&orderby=timestamp%20desc",
 		                 //url: "https://ibso-iot-services-poc.leonardo-iot.cfapps.eu10.hana.ondemand.com/comsapleonardoiot.iotuithingmodelerodata/appiot-mds/Things('4F88162A2BC542E78EA7EE6695F59B9D')/ibso.iotservicespoc.mining.demo:VibrationType/VibrationThingDemo?timerange=3M",
 		                xhrFields: {
 		                    withCredentials: true
 		                },
 		                username: "root",
-		                password: "h8UsFwQ8JAu46Ia",
+		                password: "T8vKeD9HuoT6PGr",
 		                dataType: "json",
 		                async: false,
 		                success: function (data, textStatus, jqXHR) {
@@ -287,12 +300,12 @@ sap.ui.define([
                 type: "GET",
                 contentType: "application/json",
                 crossDomain: true,
-                url: "/mining/iot/processing/api/v1/tenant/2031498523/measures/capabilities/982ec874-57ee-4e54-9804-ee75d865a1d9?top=100&orderby=timestamp%20desc",
+                url: "/mining/iot/processing/api/v1/tenant/1022420440/measures/capabilities/71fb0199-3b98-49b5-9a4e-b4f76357122e?top=100&orderby=timestamp%20desc",
                 xhrFields: {
                     withCredentials: true
                 },
                 username: "root",
-                password: "h8UsFwQ8JAu46Ia",
+                password: "T8vKeD9HuoT6PGr",
                 dataType: "json",
                 async: false,
                 success: function (data, textStatus, jqXHR) {
@@ -458,8 +471,6 @@ sap.ui.define([
 				
 				oVibrationSensorModel.setProperty("/SelectedVibrationSensor", oUpdatedData);
 			}
-			
-			// MessageToast.show("Notification " + oData.Qmnum + " is created for Device " + aUIFixedSensorData[iMatchIndex].MachineName, {width: "30rem"});
 		},
 		
 		findWithAttr: function(aColumnList, sAttr, sValue) {
@@ -506,13 +517,12 @@ sap.ui.define([
         onFilterChange: function() {
         	var sSearchQuery = this.getView().byId("idSearchField").getValue();
         	var aTableColumns = this.getOwnerComponent().getModel("VibrationSensorModel").getProperty("/SearchColumn");
-        	// var sSensor = this.getView().byId("idSensorField").getValue();
         	var sMachine = this.getView().byId("idMachineField").getValue(); 
         	var sStatus = this.getView().byId("idStatusField").getValue();
         	var aFilters = [];
         	var aSearchFilter = [];
         	
-        	this.getView().byId("idVibrationTableSensorTable").getBinding("items").filter();
+        	this.getView().byId("idVibrationSensorTable").getBinding("items").filter();
         	
         	if(sSearchQuery) {
         		for(var intI = 0; intI < aTableColumns.length; intI++) {
@@ -530,11 +540,30 @@ sap.ui.define([
         	}
         	
         	if(aFilters.length > 0) {
-        		this.getView().byId("idVibrationTableSensorTable").getBinding("items").filter(new Filter(aFilters, true)); 
+        		this.getView().byId("idVibrationSensorTable").getBinding("items").filter(new Filter(aFilters, true)); 
         	} else {
-        		this.getView().byId("idVibrationTableSensorTable").getBinding("items").filter();
+        		this.getView().byId("idVibrationSensorTable").getBinding("items").filter();
+        	}
+        	
+        	this.getMapRefreshed();
+        },
+        
+        getMapRefreshed: function() {
+        	var aFilteredMachines = [];
+        	var aSelectedContexts = [];
+        	
+        	aSelectedContexts = this.getView().byId("idVibrationSensorTable").getBinding("items").getContexts();
+        	for(var intI = 0; intI < aSelectedContexts.length; intI++) {
+        		aFilteredMachines.push(aSelectedContexts[intI].getObject());
+        	}
+        	
+        	for(var intJ = 0; intJ < this._oGoogleMapMarkers.length; intJ++) {
+        		if(this.findWithAttr(aFilteredMachines, "MachineName", this._oGoogleMapMarkers[intJ].getTitle()) >= 0) {
+        			this._oGoogleMapMarkers[intJ].setVisible(true);
+        		} else {
+        			this._oGoogleMapMarkers[intJ].setVisible(false);
+        		}
         	}
         }
 	});
-
 });
